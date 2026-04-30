@@ -30,7 +30,7 @@
             overflow: hidden; direction: rtl;
         }
 
-        /* ===== Splash Screen ===== */
+        /* ===== Splash Screen المطور مع التوقيع ===== */
         #splash {
             position: fixed;
             top: 0;
@@ -48,6 +48,17 @@
             justify-content: center;
             align-items: center;
             transition: opacity 1s ease-in-out;
+        }
+
+        /* توقيع إضافي داخل شاشة الـ Splash */
+        #splash::after {
+            content: "Future reservation system © 2026";
+            position: absolute;
+            bottom: 30px;
+            color: #c5a059;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
 
         /* --- حاوية التطبيق الرئيسية --- */
@@ -167,7 +178,7 @@
             transform: translateY(-10px); 
         }
 
-        /* أيقونة الواتساب البيضاء */
+        /* أيقونة الواتساب الرسمية البيضاء */
         .whatsapp-main img {
             width: 32px;
             height: 32px;
@@ -185,21 +196,25 @@
             animation: pulse-green 2s infinite;
         }
 
-        /* --- التوقيع الفاخر (حقوق الملكية) --- */
+        /* --- الختم الذهبي اللامع (حقوق الملكية) --- */
         .brand-footer {
             text-align: center;
-            padding: 10px 0 15px 0;
+            padding: 15px 0;
             background: #ffffff;
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--dark-deep);
-            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            background: var(--gradient-gold); /* لون ذهبي للختم بالكامل */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+            animation: glow-gold 3s ease-in-out infinite;
+            letter-spacing: 1px;
         }
 
-        .brand-footer span {
-            color: var(--primary-gold);
-            font-weight: 800;
-            margin: 0 3px;
+        /* أنيميشن اللمعة (Glow) للختم */
+        @keyframes glow-gold {
+            0%, 100% { filter: drop-shadow(0 0 2px rgba(197, 160, 89, 0.4)); opacity: 0.8; }
+            50% { filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.8)); opacity: 1; }
         }
 
     </style>
@@ -207,7 +222,7 @@
 
 <body>
 
-<!-- شاشة الترحيب -->
+<!-- شاشة الترحيب مع التوقيع التلقائي -->
 <div id="splash"></div>
 
 <div class="app" id="mainApp">
@@ -229,7 +244,7 @@
     <!-- المحتوى المتغير -->
     <div id="contentArea" class="main-content"></div>
 
-    <!-- شريط التواصل المطور -->
+    <!-- شريط التواصل المطور بأيقونة الواتساب -->
     <div class="social-nav">
         <!-- انستغرام -->
         <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
@@ -237,8 +252,8 @@
         <!-- فيسبوك -->
         <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
         
-        <!-- واتساب (المنتصف) -->
-        <a href="https://wa.me/XXXXXXXXXXX" class="social-item whatsapp-main"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp"></a>
+        <!-- زر الواتساب الرسمي (المنتصف) -->
+        <a href="https://wa.me/XXXXXXXXXXX" class="social-item whatsapp-main"><img src="https://i.ibb.co/21NBtNqn/Pngtree-whatsapp-icon-logo-whatsapp-icon-3560535.png" alt="WhatsApp"></a>
         
         <!-- مشاركة -->
         <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828960.png" alt="Share"></a>
@@ -247,15 +262,16 @@
         <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
     </div>
 
-    <!-- التوقيع (حقوق الملكية) -->
+    <!-- الختم الذهبي اللامع للحقوق -->
     <div class="brand-footer">
-        Future reservation system <span>©</span> 2026
+        Future reservation system © 2026
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
+// إعدادات النظام
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKvGZcmSHyOaKOt_YG2IcILKzGBNczUY4n3OdcruT5sY1Bu-yYVsIbkzL-RjBdSSx3/exec";
 const contentArea = document.getElementById('contentArea');
 
@@ -272,14 +288,14 @@ window.addEventListener('load', () => {
     }, 2500);
 });
 
-// تهيئة السلايدر
+// تهيئة السلايدر (البانر)
 new Swiper('.swiper', { 
     loop: true, 
     autoplay: { delay: 4000 }, 
     pagination: { el: '.swiper-pagination', clickable: true } 
 });
 
-// الصفحة الرئيسية - تم إضافة انيميشن إعادة التحميل
+// دالة عرض الصفحة الرئيسية
 function loadModeSelection(){
     contentArea.style.opacity = '0';
     setTimeout(() => {
@@ -293,7 +309,7 @@ function loadModeSelection(){
     }, 200);
 }
 
-// إعدادات التجربة
+// دالة إعداد التجربة
 function startDemoSetup(){
     contentArea.innerHTML = `
     <div class="card">
@@ -324,7 +340,7 @@ function saveDemo(){
     startBooking();
 }
 
-// صفحة الحجز
+// دالة نموذج الحجز
 function startBooking(){
     let today = new Date().toISOString().split('T')[0];
     contentArea.innerHTML = `
@@ -369,6 +385,7 @@ function validateDate(el) {
     }
 }
 
+// دالة إرسال البيانات
 function submitBooking(){
     let name = document.getElementById('pName').value.trim();
     let phone = document.getElementById('pPhone').value;
@@ -419,6 +436,7 @@ function submitBooking(){
     });
 }
 
+// دالة طلب الشراء
 function startBuy(){
     contentArea.innerHTML = `
     <div class="card">
