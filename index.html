@@ -55,7 +55,7 @@
             overflow: hidden;
         }
 
-        /* زر تبديل اللغة (رقيق وأنيق) */
+        /* زر تبديل اللغة */
         .lang-btn {
             position: absolute; top: 15px; left: 15px; z-index: 100;
             background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px);
@@ -64,9 +64,9 @@
             cursor: pointer; transition: 0.3s;
         }
 
-        /* البانر العلوي */
+        /* البانر العلوي (تمت إزالة الفلتر لتصبح الصورة واضحة) */
         .header-slider { width: 100%; height: 210px; position: relative; flex-shrink: 0; }
-        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.9); }
         .banner-text {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
             color: white; text-align: center; width: 85%; z-index: 10;
@@ -146,7 +146,7 @@
             background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* تعديل الاتجاه للإنجليزية */
+        /* تعديلات الاتجاه للإنجليزية */
         .en-mode { direction: ltr !important; }
         .en-mode .details-box { text-align: left !important; }
     </style>
@@ -161,10 +161,10 @@
     
     <!-- البانر المطور -->
     <div class="header-slider swiper">
-        <div class="swiper-wrapper">
+        <div class="swiper-wrapper" id="banner-wrapper">
             <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600"><div class="banner-text"><h1 id="txt-b1">نظام الحجز الذكي المستقبلي</h1></div></div>
             <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=600"><div class="banner-text"><h1 id="txt-b2">أناقة التصميم وسهولة الاستخدام</h1></div></div>
-            <div class="swiper-slide"><img src="https://i.ibb.co/kgm39Svk/Bannar-2-LOG3.png"><div class="banner-text"><h1 id="txt-b3"> </h1></div></div>
+            <div class="swiper-slide"><img src="https://i.ibb.co/kgm39Svk/Bannar-2-LOG3.png"><div class="banner-text"><h1 id="txt-b3">إدارة احترافية متكاملة</h1></div></div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
@@ -174,7 +174,8 @@
     <div class="social-nav">
         <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
         <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png"></a>
-        <a href="https://wa.me/XXXXXXXXXXX" class="social-item whatsapp-main"><img src="https://i.ibb.co/21NBtNqn/Pngtree-whatsapp-icon-logo-whatsapp-icon-3560535.png"></a>
+        <!-- تم تحديث رقم الواتساب المطلوب -->
+        <a href="https://wa.me/201021708011" class="social-item whatsapp-main"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"></a>
         <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828960.png"></a>
         <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png"></a>
     </div>
@@ -190,39 +191,39 @@ const contentArea = document.getElementById('contentArea');
 let CLIENT_NAME = "", CLIENT_EMAIL = "";
 let currentLang = 'ar';
 
-// قاموس الترجمة
+// قاموس الترجمة المطور
 const i18n = {
     ar: {
-        b1: "نظام الحجز الذكي المستقبلي", b2: "أناقة التصميم وسهولة الاستخدام", b3: "شريكك التقني في إدارة الحجوزات",
+        b1: "نظام الحجز الذكي المستقبلي", b2: "أناقة التصميم وسهولة الاستخدام", b3: "إدارة احترافية متكاملة",
         choose: "اختر الخدمة", demo: "تجربة النسخة التجريبية", buy: "شراء النسخة الكاملة",
         setup: "إعداد التجربة", bizName: "اسم النشاط التجاري", bizEmail: "بريدك الإلكتروني",
         enter: "دخول النظام", back: "رجوع",
         formTitle: "نموذج الحجز", namePl: "الاسم ثلاثي", phonePl: "رقم الهاتف", confirm: "تأكيد الحجز",
         nameErr: "⚠️ يجب كتابة الاسم ثلاثي", phoneErr: "⚠️ من فضلك أدخل 11 رقم", emailErr: "⚠️ يرجى إدخال إيميل صحيح يحتوي على @",
         fridayErr: "⚠️ عذراً، الجمعة إجازة رسمية",
-        processing: "جاري معالجة طلبك الفاخر...",
+        processing: "جاري تأكيد بيانات الحجز.. يرجى الانتظار",
         dupTitle: "حجز قائم بالفعل", dupMsg: "نحيطكم علماً بأن سجلاتنا تشير إلى وجود طلب حجز مسبق مسجل بهذا الرقم. يرجى مراجعة الإيصال السابق أو التواصل مع الدعم.",
         adminBadge: "تنبيه إداري",
         successTitle: "تم تأكيد الطلب", successHero: "شكراً لثقتكم، إليكم تفاصيل الإيصال الرقمي:",
         receiptId: "رقم الإيصال:", bookingDate: "تاريخ الحجز:", regTime: "وقت التسجيل:", status: "الحالة:", approved: "معتمد",
         emailNotice: "يرجى مراجعة بريدك الإلكتروني للاطلاع على تفاصيل الحجز المرسلة إليكم.",
-        home: "العودة للرئيسية", nameBuy: "الاسم", phoneBuy: "رقم الهاتف", send: "إرسال الطلب", buySuccess: "تم استلام طلبك، سنتواصل معك قريباً."
+        home: "العودة للرئيسية", nameBuy: "الاسم الثلاثي", phoneBuy: "رقم الهاتف (11 رقم)", send: "إرسال الطلب", buySuccess: "تم استلام طلبك، سنتواصل معك قريباً."
     },
     en: {
-        b1: "Future Smart Booking System", b2: "Elegant Design & Ease of Use", b3: "Your Tech Partner in Reservations",
+        b1: "Future Smart Booking System", b2: "Elegant Design & Ease of Use", b3: "Integrated Professional Management",
         choose: "Choose Service", demo: "Try Demo Version", buy: "Buy Full Version",
         setup: "Setup Experience", bizName: "Business Name", bizEmail: "Your Email",
         enter: "Enter System", back: "Back",
         formTitle: "Booking Form", namePl: "Full Name", phonePl: "Phone Number", confirm: "Confirm Booking",
         nameErr: "⚠️ Full name is required", phoneErr: "⚠️ Please enter 11 digits", emailErr: "⚠️ Enter a valid email with @",
         fridayErr: "⚠️ Sorry, Friday is a holiday",
-        processing: "Processing your luxury request...",
+        processing: "Confirming booking data.. please wait",
         dupTitle: "Existing Reservation", dupMsg: "Please note that our records show a previous booking registered with this number. Please check your receipt.",
         adminBadge: "Admin Alert",
         successTitle: "Order Confirmed", successHero: "Thank you for your trust, here are your receipt details:",
         receiptId: "Receipt ID:", bookingDate: "Booking Date:", regTime: "Registration Time:", status: "Status:", approved: "Approved",
         emailNotice: "Please check your email to view the booking details sent to you.",
-        home: "Back to Home", nameBuy: "Name", phoneBuy: "Phone", send: "Send Request", buySuccess: "Request received, we will contact you soon."
+        home: "Back to Home", nameBuy: "Full Name", phoneBuy: "Phone (11 digits)", send: "Send Request", buySuccess: "Request received, we will contact you soon."
     }
 };
 
@@ -231,7 +232,7 @@ function toggleLanguage() {
     document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
     document.body.classList.toggle('en-mode', currentLang === 'en');
     
-    // تحديث البانر
+    // تحديث البانر لضمان عدم الاختفاء
     document.getElementById('txt-b1').innerText = i18n[currentLang].b1;
     document.getElementById('txt-b2').innerText = i18n[currentLang].b2;
     document.getElementById('txt-b3').innerText = i18n[currentLang].b3;
@@ -329,8 +330,9 @@ function submitBooking(){
     let name = document.getElementById('pName').value.trim();
     let phone = document.getElementById('pPhone').value;
     let date = document.getElementById('pDate').value;
+    // التحقق الصارم من الشروط
     if(name.split(/\s+/).length < 3 || phone.length < 11 || !date) { 
-        alert(currentLang === 'ar' ? "يرجى مراجعة البيانات" : "Please review data"); 
+        alert(currentLang === 'ar' ? "يرجى مراجعة البيانات (الاسم ثلاثي ورقم الهاتف 11 رقم)" : "Please review data (Full name and 11 digits phone)"); 
         return; 
     }
 
@@ -380,8 +382,10 @@ function startBuy(){
     <div class="card">
         <h3><i class="fa-solid fa-basket-shopping"></i> ${i18n[currentLang].buy}</h3>
         <div class="booking-form">
-            <input id="buyName" placeholder="${i18n[currentLang].nameBuy}">
-            <input id="buyPhone" placeholder="${i18n[currentLang].phoneBuy}">
+            <input id="buyName" placeholder="${i18n[currentLang].nameBuy}" oninput="validateName(this)">
+            <div id="buyNameErr" class="hint-error">${i18n[currentLang].nameErr}</div>
+            <input id="buyPhone" placeholder="${i18n[currentLang].phoneBuy}" maxlength="11" oninput="validatePhone(this)">
+            <div id="buyPhoneErr" class="hint-error">${i18n[currentLang].phoneErr}</div>
             <button class="btn btn-gold" onclick="submitBuy()">${i18n[currentLang].send}</button>
             <button class="btn" style="background:#f1f5f9; color:#64748b;" onclick="loadModeSelection()">${i18n[currentLang].back}</button>
         </div>
@@ -389,8 +393,13 @@ function startBuy(){
 }
 
 function submitBuy(){
-    let name = document.getElementById('buyName').value, phone = document.getElementById('buyPhone').value;
-    if(!name || !phone) return;
+    let name = document.getElementById('buyName').value.trim();
+    let phone = document.getElementById('buyPhone').value;
+    // إضافة شروط الشراء المطلوبة
+    if(name.split(/\s+/).length < 3 || phone.length < 11) {
+        alert(currentLang === 'ar' ? "يجب إدخال الاسم ثلاثي ورقم هاتف صحيح" : "Full name and correct phone number are required");
+        return;
+    }
     fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ mode: "buy", name, phone }) });
     alert(i18n[currentLang].buySuccess);
     loadModeSelection();
