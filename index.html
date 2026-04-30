@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-
         /* --- 1. المتغيرات والأساسيات الفخمة --- */
         :root {
             --primary-gold: #c5a059; /* لون ذهبي بريميوم */
@@ -40,21 +39,21 @@
             direction: rtl;
         }
 
-        /* --- 2. شاشة الترحيب (Splash Screen) --- */
+        /* --- 2. شاشة الترحيب المحدثة (Splash Screen) 🔥 --- */
         #splash {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background: url("https://i.ibb.co/2YkxcZLJ/Bannar-LOGO.png") center center / cover no-repeat;
+            /* تم التعديل هنا لضمان تناسق الصورة وعدم قصها */
+            background: #ffffff url("https://i.ibb.co/1GbPSfyw/Bannar-2-LOGO.png") center center / contain no-repeat;
             z-index: 9999;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             transition: opacity 1s ease-in-out;
-            color: white;
         }
 
         /* --- 3. حاوية التطبيق الرئيسية --- */
@@ -138,49 +137,14 @@
         .social-item img { width: 28px; transition: 0.3s; filter: grayscale(1); opacity: 0.6; }
         .social-item:hover img { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
 
-
-        /* ===== LOGO ANIMATION ===== */
-        .logo-img {
-            width: 140px;
-            margin-bottom: 20px;
-            opacity: 0;
-            transform: scale(0.7);
-            animation: logoFade 1.5s ease forwards, floatLogo 3s ease-in-out infinite;
-        }
-
-        .logo-text {
-            opacity: 0;
-            transform: translateY(20px);
-            animation: textFade 1.5s ease forwards;
-            animation-delay: 0.5s;
-        }
-
-        @keyframes logoFade {
-            0% { opacity: 0; transform: scale(0.7); }
-            60% { opacity: 1; transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        @keyframes textFade {
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes floatLogo {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0px); }
-        }
-
     </style>
 </head>
 
 <body>
 
-<!-- شاشة الترحيب واللوجو -->
-<div id="splash">
-    <img src="https://i.ibb.co/2YkxcZLJ/Bannar-LOGO.png" class="logo-img">
-    <h2 class="logo-text">Future Reservation System</h2>
-</div>
+<!-- شاشة الترحيب المحدثة -->
+<div id="splash"></div>
+
 <div class="app" id="mainApp">
     <!-- السلايدر العلوي -->
     <div class="header-slider swiper">
@@ -214,7 +178,6 @@
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKvGZcmSHyOaKOt_YG2IcILKzGBNczUY4n3OdcruT5sY1Bu-yYVsIbkzL-RjBdSSx3/exec";
 const contentArea = document.getElementById('contentArea');
 
-let MODE = "demo";
 let CLIENT_NAME = "";
 let CLIENT_EMAIL = "";
 
@@ -240,8 +203,8 @@ function loadModeSelection(){
     contentArea.innerHTML = `
     <div class="card" style="text-align:center;">
         <h3 style="margin-bottom:20px; color:var(--dark-deep)">اختر نوع التجربة</h3>
-        <button class="btn btn-gold" onclick="startDemoSetup()">ابدأ النسخة التجريبية</button>
-        <button class="btn" onclick="startBuy()">طلب شراء النسخة الكاملة</button>
+        <button class="btn btn-gold" onclick="startDemoSetup()">تجربة</button>
+        <button class="btn" onclick="startBuy()">شراء</button>
     </div>`;
 }
 
@@ -254,7 +217,7 @@ function startDemoSetup(){
             <input id="bizName" type="text" placeholder="اسم النشاط التجاري" value="${CLIENT_NAME}">
             <input id="bizEmail" type="email" placeholder="بريدك الإلكتروني المستلم" value="${CLIENT_EMAIL}" oninput="validateEmail(this)">
             <div id="emailErr" class="hint-error">⚠️ يرجى إدخال إيميل صحيح يحتوي على @</div>
-            <button class="btn btn-gold" onclick="saveDemo()">دخول النظام</button>
+            <button class="btn btn-gold" onclick="saveDemo()">التالي</button>
             <button class="btn" style="background:#f1f5f9; color:#64748b; box-shadow:none;" onclick="loadModeSelection()">رجوع</button>
         </div>
     </div>`;
@@ -273,7 +236,6 @@ function saveDemo(){
         alert("يرجى تعبئة اسم النشاط والبريد الإلكتروني بشكل صحيح");
         return;
     }
-    MODE = "demo";
     startBooking();
 }
 
@@ -284,42 +246,13 @@ function startBooking(){
     <div class="card">
         <h4 style="margin-bottom:15px; color:var(--primary-gold)">نموذج الحجز الذكي</h4>
         <div class="booking-form">
-            <input id="pName" type="text" placeholder="الاسم ثلاثي" oninput="validateName(this)">
-            <div id="nameErr" class="hint-error">⚠️ يجب كتابة الاسم ثلاثي على الأقل</div>
-
-            <input id="pPhone" type="tel" maxlength="11" placeholder="رقم الهاتف (اكتب الرقم ويفضل واتس)" oninput="validatePhone(this)">
-            <div id="phoneErr" class="hint-error">⚠️ من فضلك أدخل 11 رقم (باللغة الإنجليزية فقط)</div>
-
-            <input type="date" id="pDate" min="${today}" onchange="validateDate(this)">
-            <div id="dateErr" class="hint-error">⚠️ عذراً، الجمعة إجازة رسمية، يرجى اختيار يوم آخر</div>
-
-            <button class="btn btn-gold" onclick="submitBooking()">تأكيد الحجز الآن</button>
-            <button class="btn btn-back" style="background:#e2e8f0; color:#64748b;" onclick="startDemoSetup()">تعديل بيانات النشاط</button>
+            <input id="pName" type="text" placeholder="الاسم ثلاثي">
+            <input id="pPhone" type="tel" maxlength="11" placeholder="الهاتف">
+            <input type="date" id="pDate" min="${today}">
+            <button class="btn btn-gold" onclick="submitBooking()">تسجيل</button>
+            <button class="btn btn-back" style="background:#e2e8f0; color:#64748b;" onclick="startDemoSetup()">رجوع</button>
         </div>
     </div>`;
-}
-
-function validateName(el) {
-    const err = document.getElementById('nameErr');
-    const words = el.value.trim().split(/\s+/);
-    err.style.display = words.length >= 3 ? 'none' : 'block';
-}
-
-function validatePhone(el) {
-    const err = document.getElementById('phoneErr');
-    el.value = el.value.replace(/[^0-9]/g, ''); // إجبار الأرقام الإنجليزية فقط
-    err.style.display = el.value.length === 11 ? 'none' : 'block';
-}
-
-function validateDate(el) {
-    const err = document.getElementById('dateErr');
-    const day = new Date(el.value).getDay();
-    if(day === 5) { // 5 هو يوم الجمعة في JS
-        err.style.display = 'block';
-        el.value = '';
-    } else {
-        err.style.display = 'none';
-    }
 }
 
 function submitBooking(){
@@ -327,44 +260,28 @@ function submitBooking(){
     let phone = document.getElementById('pPhone').value;
     let date = document.getElementById('pDate').value;
 
-    if(name.split(/\s+/).length < 3 || phone.length != 11 || !date) {
-        alert("يرجى تصحيح الأخطاء وإكمال البيانات المطلوبة");
+    if(!name || !phone || !date) {
+        alert("يرجى إكمال البيانات المطلوبة");
         return;
     }
 
-    contentArea.innerHTML = `<div class="msg">جاري معالجة طلبك الفاخر...</div>`;
+    contentArea.innerHTML = `<div class="msg">جاري معالجة طلبك...</div>`;
 
     fetch(SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify({
             name, phone, bookingDate: date,
-            source: CLIENT_NAME, clientEmail: CLIENT_EMAIL,
-            mode: "demo"
+            source: CLIENT_NAME, clientEmail: CLIENT_EMAIL
         })
     })
     .then(r => r.json())
     .then(data => {
-        if(data.status == "duplicated") {
-            contentArea.innerHTML = `
-            <div class="msg" style="border-right-color:#ef4444; text-align:right;">
-                <h3 style="color:#ef4444; text-align:center;">⚠️ تنبيه بوجود حجز!</h3>
-                <div style="font-weight:700; line-height:1.8; color:var(--dark-deep);">
-                    ${data.message}
-                </div>
-                <button class="btn" style="margin-top:20px" onclick="startBooking()">فهمت، العودة</button>
-            </div>`;
-        } else {
-            contentArea.innerHTML = `
-            <div class="msg">
-                <h3 style="color:var(--primary-gold)">تم الحجز بنجاح!</h3>
-                شكراً لثقتك بـ ${CLIENT_NAME}<br>
-                📌 رقم الإيصال: <b style="font-size:22px; color:var(--dark-deep);">${data.id}</b><br>
-                📅 اليوم: <b>${date}</b><br><br>
-                تم إرسال إيصال الحجز الفخم إلى بريدك:<br>
-                <span style="color:var(--primary-gold)">${CLIENT_EMAIL}</span>
-                <button class="btn" style="margin-top:20px" onclick="loadModeSelection()">العودة للرئيسية</button>
-            </div>`;
-        }
+        contentArea.innerHTML = `
+        <div class="msg">
+            <h3 style="color:var(--primary-gold)">تم الحجز بنجاح!</h3>
+            شكراً لثقتك بـ ${CLIENT_NAME}<br>
+            <button class="btn" style="margin-top:20px" onclick="loadModeSelection()">العودة للرئيسية</button>
+        </div>`;
     })
     .catch(err => {
         alert("حدث خطأ في الاتصال، حاول مرة أخرى");
@@ -376,7 +293,6 @@ function startBuy(){
     contentArea.innerHTML = `
     <div class="card">
         <h3>طلب النسخة الكاملة</h3>
-        <p>يرجى ترك بياناتك وسنقوم بالتواصل معك فوراً لتجهيز تطبيقك الخاص.</p>
         <div class="booking-form">
             <input id="buyName" placeholder="الاسم">
             <input id="buyPhone" placeholder="رقم الهاتف" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
@@ -395,7 +311,7 @@ function submitBuy(){
         method: "POST",
         body: JSON.stringify({ mode: "buy", name, phone })
     });
-    alert("تم إرسال طلبك بنجاح، سنتواصل معك قريباً.");
+    alert("تم الإرسال بنجاح، سنتواصل معك قريباً.");
     loadModeSelection();
 }
 </script>
