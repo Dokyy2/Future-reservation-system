@@ -10,150 +10,133 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
-/* --- أساسيات التصميم البريميوم --- */
-:root { 
-    --primary-gold: #c5a059; /* لون ذهبي بريميوم */
-    --dark-deep: #0f172a;    /* كحلي غامق فخم */
-    --glass-bg: rgba(255, 255, 255, 0.9);
-    --luxury-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    --gradient-gold: linear-gradient(135deg, #c5a059 0%, #ecd08d 100%);
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    --error-red: #ef4444;
-}
+        /* --- أساسيات التصميم البريميوم --- */
+        :root { 
+            --primary-gold: #c5a059; /* لون ذهبي بريميوم */
+            --dark-deep: #0f172a;    /* كحلي غامق فخم */
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --luxury-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --gradient-gold: linear-gradient(135deg, #c5a059 0%, #ecd08d 100%);
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --error-red: #ef4444;
+        }
 
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
 
-body {
-    margin: 0; font-family: 'Cairo', sans-serif;
-    height: 100dvh; display: flex; justify-content: center; align-items: center;
-    background: #f8fafc;
-    overflow: hidden; direction: rtl;
-}
+        body {
+            margin: 0; font-family: 'Cairo', sans-serif;
+            height: 100dvh; display: flex; justify-content: center; align-items: center;
+            background: #f8fafc;
+            overflow: hidden; direction: rtl;
+        }
 
-/* ===== Splash Screen المحدث لتعبئة الشاشة بالكامل 🔥 ===== */
-#splash {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh; /* يغطي كامل ارتفاع الشاشة المرئية */
-    background: #000000; /* لون خلفية أسود ليتناسق مع حواف الصورة */
-    background-image: url("https://i.ibb.co/1GbPSfyw/Bannar-2-LOGO.png");
-    background-position: center center;
-    background-size: contain; /* يكبر الصورة لتملأ العرض مع الحفاظ على الأبعاد */
-    background-repeat: no-repeat;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 1s ease-in-out;
-    color: white;
-}
+        /* ===== Splash Screen المحدث لتعبئة الشاشة بالكامل 🔥 ===== */
+        #splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000000; /* خلفية سوداء لدمج حواف الصورة */
+            background-image: url("https://i.ibb.co/1GbPSfyw/Bannar-2-LOGO.png");
+            background-position: center center;
+            background-size: contain; 
+            background-repeat: no-repeat;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-in-out;
+        }
 
-/* --- 3. حاوية التطبيق الرئيسية --- */
-.app {
-    width: 100%; max-width: 450px; height: 100%; 
-    display: flex; flex-direction: column;
-    background: #ffffff;
-    position: relative; overflow: hidden;
-    opacity: 0; transition: opacity 1s ease;
-}
+        /* --- حاوية التطبيق الرئيسية --- */
+        .app {
+            width: 100%; max-width: 450px; height: 100%; 
+            display: flex; flex-direction: column;
+            background: #ffffff;
+            position: relative; overflow: hidden;
+            opacity: 0; transition: opacity 1s ease;
+        }
 
-/* البانر العلوي */
-.header-slider { width: 100%; height: 280px; position: relative; }
-.swiper-slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); }
+        /* البانر العلوي */
+        .header-slider { width: 100%; height: 280px; position: relative; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); }
 
-.banner-text {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    color: white; text-align: center; width: 80%; z-index: 10;
-}
-.banner-text h1 { font-size: 1.5rem; font-weight: 800; margin: 0; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .banner-text {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: white; text-align: center; width: 80%; z-index: 10;
+        }
+        .banner-text h1 { font-size: 1.5rem; font-weight: 800; margin: 0; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
 
-/* المحتوى الداخلي */
-.main-content { 
-    flex: 1; overflow-y: auto; padding: 25px; 
-    display: flex; flex-direction: column; gap: 20px;
-    background: linear-gradient(to bottom, #ffffff, #f1f5f9);
-}
+        /* المحتوى الداخلي */
+        .main-content { 
+            flex: 1; overflow-y: auto; padding: 25px; 
+            display: flex; flex-direction: column; gap: 20px;
+            background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+        }
 
-/* الكروت والأزرار الفخمة */
-.card {
-    background: white; border-radius: 24px; padding: 20px;
-    box-shadow: var(--luxury-shadow); border: 1px solid rgba(0,0,0,0.03);
-    transform: translateY(0); transition: var(--transition-smooth);
-}
+        /* الكروت والأزرار الفخمة */
+        .card {
+            background: white; border-radius: 24px; padding: 20px;
+            box-shadow: var(--luxury-shadow); border: 1px solid rgba(0,0,0,0.03);
+            transform: translateY(0); transition: var(--transition-smooth);
+        }
 
-.btn {
-    width: 100%; padding: 16px; border-radius: 16px; border: none;
-    font-family: 'Cairo'; font-weight: 700; font-size: 1rem;
-    cursor: pointer; position: relative; overflow: hidden;
-    transition: var(--transition-smooth);
-    background: var(--dark-deep); color: white;
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2);
-    margin: 10px 0;
-}
+        .btn {
+            width: 100%; padding: 16px; border-radius: 16px; border: none;
+            font-family: 'Cairo'; font-weight: 700; font-size: 1rem;
+            cursor: pointer; position: relative; overflow: hidden;
+            transition: var(--transition-smooth);
+            background: var(--dark-deep); color: white;
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2);
+            margin: 10px 0;
+        }
 
-/* تأثير الأنيميشن عند الضغط أو الوقوف */
-.btn:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(15, 23, 42, 0.3);
-    background: #1e293b;
-}
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(15, 23, 42, 0.3);
+            background: #1e293b;
+        }
 
-.btn:active { transform: scale(0.95); }
+        .btn:active { transform: scale(0.95); }
 
-.btn-gold {
-    background: var(--gradient-gold);
-    color: var(--dark-deep);
-    box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2);
-}
+        .btn-gold {
+            background: var(--gradient-gold);
+            color: var(--dark-deep);
+            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2);
+        }
 
-/* الفورم المدخلات */
-.booking-form input {
-    width: 100%; padding: 15px; border-radius: 12px;
-    border: 1.5px solid #e2e8f0; margin-bottom: 5px;
-    font-family: 'Cairo'; font-size: 0.9rem; transition: var(--transition-smooth);
-}
-.booking-form input:focus { border-color: var(--primary-gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
+        /* الفورم المدخلات */
+        .booking-form input {
+            width: 100%; padding: 15px; border-radius: 12px;
+            border: 1.5px solid #e2e8f0; margin-bottom: 5px;
+            font-family: 'Cairo'; font-size: 0.9rem; transition: var(--transition-smooth);
+        }
+        .booking-form input:focus { border-color: var(--primary-gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
 
-.hint-error { color: var(--error-red); font-size: 0.75rem; font-weight: 700; display: none; margin-bottom: 10px; }
+        .hint-error { color: var(--error-red); font-size: 0.75rem; font-weight: 700; display: none; margin-bottom: 10px; }
 
-.msg {
-    background: white; border-radius: 20px; padding: 30px;
-    text-align: center; border-right: 5px solid var(--primary-gold);
-    box-shadow: var(--luxury-shadow); line-height: 1.8;
-}
+        .msg {
+            background: white; border-radius: 20px; padding: 30px;
+            text-align: center; border-right: 5px solid var(--primary-gold);
+            box-shadow: var(--luxury-shadow); line-height: 1.8;
+        }
 
-/* شريط التواصل السفلي */
-.social-nav {
-    display: flex; justify-content: center; gap: 25px; padding: 20px;
-    background: white; border-top: 1px solid #f1f5f9;
-}
-.social-item img { width: 28px; transition: 0.3s; filter: grayscale(1); opacity: 0.6; }
-.social-item:hover img { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
+        /* شريط التواصل السفلي */
+        .social-nav {
+            display: flex; justify-content: center; gap: 25px; padding: 20px;
+            background: white; border-top: 1px solid #f1f5f9;
+        }
+        .social-item img { width: 28px; transition: 0.3s; filter: grayscale(1); opacity: 0.6; }
+        .social-item:hover img { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
 
-/* تأثير الأنيميشن للوجو */
-.logo-img {
-    width: 150px; /* مقاس اللوجو */
-    margin-bottom: 30px;
-    opacity: 0;
-    transform: scale(0.7);
-    animation: logoFadeIn 1.5s ease forwards;
-}
-
-@keyframes logoFadeIn {
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-</style>
+    </style>
 </head>
 
 <body>
 
-<!-- شاشة الترحيب المحدثة -->
+<!-- شاشة الترحيب -->
 <div id="splash"></div>
 
 <div class="app" id="mainApp">
@@ -209,13 +192,13 @@ new Swiper('.swiper', {
     pagination: { el: '.swiper-pagination', clickable: true } 
 });
 
-// الصفحة الرئيسية (الاختيارات)
+// الصفحة الرئيسية
 function loadModeSelection(){
     contentArea.innerHTML = `
     <div class="card" style="text-align:center;">
         <h3 style="margin-bottom:20px; color:var(--dark-deep)">اختر نوع التجربة</h3>
-        <button class="btn btn-gold" onclick="startDemoSetup()">تجربة</button>
-        <button class="btn" onclick="startBuy()">شراء</button>
+        <button class="btn btn-gold" onclick="startDemoSetup()">ابدأ النسخة التجريبية</button>
+        <button class="btn" onclick="startBuy()">طلب شراء النسخة الكاملة</button>
     </div>`;
 }
 
@@ -228,7 +211,7 @@ function startDemoSetup(){
             <input id="bizName" type="text" placeholder="اسم النشاط التجاري" value="${CLIENT_NAME}">
             <input id="bizEmail" type="email" placeholder="بريدك الإلكتروني المستلم" value="${CLIENT_EMAIL}" oninput="validateEmail(this)">
             <div id="emailErr" class="hint-error">⚠️ يرجى إدخال إيميل صحيح يحتوي على @</div>
-            <button class="btn btn-gold" onclick="saveDemo()">التالي</button>
+            <button class="btn btn-gold" onclick="saveDemo()">دخول النظام</button>
             <button class="btn" style="background:#f1f5f9; color:#64748b; box-shadow:none;" onclick="loadModeSelection()">رجوع</button>
         </div>
     </div>`;
@@ -257,13 +240,42 @@ function startBooking(){
     <div class="card">
         <h4 style="margin-bottom:15px; color:var(--primary-gold)">نموذج الحجز الذكي</h4>
         <div class="booking-form">
-            <input id="pName" type="text" placeholder="الاسم ثلاثي">
-            <input id="pPhone" type="tel" maxlength="11" placeholder="الهاتف">
-            <input type="date" id="pDate" min="${today}">
-            <button class="btn btn-gold" onclick="submitBooking()">تسجيل</button>
-            <button class="btn btn-back" style="background:#e2e8f0; color:#64748b;" onclick="startDemoSetup()">رجوع</button>
+            <input id="pName" type="text" placeholder="الاسم ثلاثي" oninput="validateName(this)">
+            <div id="nameErr" class="hint-error">⚠️ يجب كتابة الاسم ثلاثي على الأقل</div>
+
+            <input id="pPhone" type="tel" maxlength="11" placeholder="رقم الهاتف (بالإنجليزي)" oninput="validatePhone(this)">
+            <div id="phoneErr" class="hint-error">⚠️ من فضلك أدخل 11 رقم</div>
+
+            <input type="date" id="pDate" min="${today}" onchange="validateDate(this)">
+            <div id="dateErr" class="hint-error">⚠️ عذراً، الجمعة إجازة رسمية، يرجى اختيار يوم آخر</div>
+
+            <button class="btn btn-gold" onclick="submitBooking()">تأكيد الحجز الآن</button>
+            <button class="btn btn-back" style="background:#e2e8f0; color:#64748b;" onclick="startDemoSetup()">تعديل بيانات النشاط</button>
         </div>
     </div>`;
+}
+
+function validateName(el) {
+    const err = document.getElementById('nameErr');
+    const words = el.value.trim().split(/\s+/);
+    err.style.display = words.length >= 3 ? 'none' : 'block';
+}
+
+function validatePhone(el) {
+    const err = document.getElementById('phoneErr');
+    el.value = el.value.replace(/[^0-9]/g, ''); 
+    err.style.display = el.value.length === 11 ? 'none' : 'block';
+}
+
+function validateDate(el) {
+    const err = document.getElementById('dateErr');
+    const day = new Date(el.value).getDay();
+    if(day === 5) { 
+        err.style.display = 'block';
+        el.value = '';
+    } else {
+        err.style.display = 'none';
+    }
 }
 
 function submitBooking(){
@@ -271,8 +283,8 @@ function submitBooking(){
     let phone = document.getElementById('pPhone').value;
     let date = document.getElementById('pDate').value;
 
-    if(!name || !phone || !date) {
-        alert("يرجى إكمال البيانات المطلوبة");
+    if(name.split(/\s+/).length < 3 || phone.length != 11 || !date) {
+        alert("يرجى تصحيح الأخطاء وإكمال البيانات المطلوبة");
         return;
     }
 
@@ -282,17 +294,33 @@ function submitBooking(){
         method: "POST",
         body: JSON.stringify({
             name, phone, bookingDate: date,
-            source: CLIENT_NAME, clientEmail: CLIENT_EMAIL
+            source: CLIENT_NAME, clientEmail: CLIENT_EMAIL,
+            mode: "demo"
         })
     })
     .then(r => r.json())
     .then(data => {
-        contentArea.innerHTML = `
-        <div class="msg">
-            <h3 style="color:var(--primary-gold)">تم الحجز بنجاح!</h3>
-            شكراً لثقتك بـ ${CLIENT_NAME}<br>
-            <button class="btn" style="margin-top:20px" onclick="loadModeSelection()">العودة للرئيسية</button>
-        </div>`;
+        if(data.status == "duplicated") {
+            contentArea.innerHTML = `
+            <div class="msg" style="border-right-color:#ef4444; text-align:right;">
+                <h3 style="color:#ef4444; text-align:center;">⚠️ تنبيه بوجود حجز!</h3>
+                <div style="font-weight:700; line-height:1.8; color:var(--dark-deep);">
+                    ${data.message}
+                </div>
+                <button class="btn" style="margin-top:20px" onclick="startBooking()">حاول مجدداً</button>
+            </div>`;
+        } else {
+            contentArea.innerHTML = `
+            <div class="msg">
+                <h3 style="color:var(--primary-gold)">تم الحجز بنجاح!</h3>
+                شكراً لثقتك بـ ${CLIENT_NAME}<br>
+                📌 رقم الإيصال: <b style="font-size:22px; color:var(--dark-deep);">${data.id}</b><br>
+                📅 اليوم: <b>${date}</b><br><br>
+                تم إرسال الإيصال إلى بريدك:<br>
+                <span style="color:var(--primary-gold)">${CLIENT_EMAIL}</span>
+                <button class="btn" style="margin-top:20px" onclick="loadModeSelection()">العودة للرئيسية</button>
+            </div>`;
+        }
     })
     .catch(err => {
         alert("حدث خطأ في الاتصال، حاول مرة أخرى");
