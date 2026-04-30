@@ -8,277 +8,237 @@
     <!-- الخطوط والمكتبات الخارجية -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     <style>
         /* --- أساسيات التصميم البريميوم --- */
         :root { 
-            --primary-gold: #c5a059; /* لون ذهبي بريميوم */
-            --dark-deep: #0f172a;    /* كحلي غامق فخم */
-            --glass-bg: rgba(255, 255, 255, 0.9);
-            --luxury-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --primary-gold: #c5a059;
+            --dark-deep: #0f172a;
+            --luxury-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             --gradient-gold: linear-gradient(135deg, #c5a059 0%, #ecd08d 100%);
             --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             --error-red: #ef4444;
         }
 
+        /* منع السكرول نهائياً لجعل الواجهة كتطبيق ثابت */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-
-        body {
-            margin: 0; font-family: 'Cairo', sans-serif;
-            height: 100dvh; display: flex; justify-content: center; align-items: center;
-            background: #f8fafc;
-            overflow: hidden; direction: rtl;
+        html, body { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            overflow: hidden; font-family: 'Cairo', sans-serif;
+            background: #f8fafc; direction: rtl;
         }
 
-        /* ===== Splash Screen المطور مع التوقيع ===== */
+        body { display: flex; justify-content: center; align-items: center; }
+
+        /* ===== Splash Screen ===== */
         #splash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background: #000000; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+            background: #000; z-index: 9999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
             background-image: url("https://i.ibb.co/1GbPSfyw/Bannar-2-LOGO.png");
-            background-position: center center;
-            background-size: contain; 
-            background-repeat: no-repeat;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 1s ease-in-out;
+            background-position: center; background-size: contain; background-repeat: no-repeat;
+            transition: opacity 1s ease;
         }
 
-        /* توقيع إضافي داخل شاشة الـ Splash */
         #splash::after {
             content: "Future reservation system © 2026";
-            position: absolute;
-            bottom: 30px;
-            color: #c5a059;
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
+            position: absolute; bottom: 30px; color: var(--primary-gold);
+            font-size: 0.7rem; font-weight: 700; opacity: 0.8;
         }
 
-        /* --- حاوية التطبيق الرئيسية --- */
+        /* --- الحاوية الرئيسية --- */
         .app {
-            width: 100%; max-width: 450px; height: 100%; 
-            display: flex; flex-direction: column;
-            background: #ffffff;
-            position: relative; overflow: hidden;
-            opacity: 0; transition: opacity 1s ease;
+            width: 100%; max-width: 390px; height: 100dvh; 
+            display: flex; flex-direction: column; background: #ffffff;
+            position: relative; opacity: 0; transition: opacity 1s ease;
+            overflow: hidden;
+        }
+
+        /* زر تبديل اللغة (رقيق وأنيق) */
+        .lang-btn {
+            position: absolute; top: 15px; left: 15px; z-index: 100;
+            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px;
+            padding: 4px 12px; color: white; font-size: 0.7rem; font-weight: 700;
+            cursor: pointer; transition: 0.3s;
         }
 
         /* البانر العلوي */
-        .header-slider { width: 100%; height: 280px; position: relative; }
-        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.7); }
-
+        .header-slider { width: 100%; height: 210px; position: relative; flex-shrink: 0; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.6); }
         .banner-text {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: white; text-align: center; width: 80%; z-index: 10;
+            color: white; text-align: center; width: 85%; z-index: 10;
         }
-        .banner-text h1 { font-size: 1.5rem; font-weight: 800; margin: 0; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .banner-text h1 { font-size: 1.2rem; font-weight: 800; margin: 0; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
 
-        /* المحتوى الداخلي مع إضافة انيميشن الانتقال */
+        /* المحتوى الداخلي */
         .main-content { 
-            flex: 1; overflow-y: auto; padding: 25px; 
-            display: flex; flex-direction: column; gap: 20px;
-            background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+            flex: 1; padding: 15px; display: flex; flex-direction: column; 
+            gap: 12px; background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+            overflow: hidden;
         }
 
-        /* --- انيميشن ظهور الكروت بشكل احترافي --- */
-        @keyframes cardFadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* --- الكرود --- */
         .card {
-            background: white; border-radius: 24px; padding: 20px;
-            box-shadow: var(--luxury-shadow); border: 1px solid rgba(0,0,0,0.03);
-            animation: cardFadeIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+            background: white; border-radius: 18px; padding: 15px;
+            box-shadow: var(--luxury-shadow); border: 1px solid rgba(0,0,0,0.02);
+            animation: cardFadeIn 0.6s ease both;
+            width: 95%; margin: 0 auto;
         }
+
+        @keyframes cardFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card h3, .card h4 { margin-top: 0; font-size: 0.95rem; color: var(--dark-deep); display: flex; align-items: center; justify-content: center; gap: 8px; }
 
         .btn {
-            width: 100%; padding: 16px; border-radius: 16px; border: none;
-            font-family: 'Cairo'; font-weight: 700; font-size: 1rem;
-            cursor: pointer; position: relative; overflow: hidden;
-            transition: var(--transition-smooth);
+            width: 100%; padding: 11px; border-radius: 12px; border: none;
+            font-family: 'Cairo'; font-weight: 700; font-size: 0.85rem;
+            cursor: pointer; transition: var(--transition-smooth);
             background: var(--dark-deep); color: white;
-            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2);
-            margin: 10px 0;
+            margin: 6px 0; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
+        .btn:active { transform: scale(0.96); }
+        .btn-gold { background: var(--gradient-gold); color: var(--dark-deep); }
 
-        .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(15, 23, 42, 0.3);
-            background: #1e293b;
-        }
-
-        .btn:active { transform: scale(0.95); }
-
-        .btn-gold {
-            background: var(--gradient-gold);
-            color: var(--dark-deep);
-            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.2);
-        }
-
-        /* الفورم المدخلات */
         .booking-form input {
-            width: 100%; padding: 15px; border-radius: 12px;
-            border: 1.5px solid #e2e8f0; margin-bottom: 5px;
-            font-family: 'Cairo'; font-size: 0.9rem; transition: var(--transition-smooth);
-        }
-        .booking-form input:focus { border-color: var(--primary-gold); box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
-
-        .hint-error { color: var(--error-red); font-size: 0.75rem; font-weight: 700; display: none; margin-bottom: 10px; }
-
-        .msg {
-            background: white; border-radius: 20px; padding: 30px;
-            text-align: center; border-right: 5px solid var(--primary-gold);
-            box-shadow: var(--luxury-shadow); line-height: 1.8;
-            animation: cardFadeIn 0.5s ease both;
+            width: 100%; padding: 10px; border-radius: 10px;
+            border: 1.5px solid #e2e8f0; margin-bottom: 6px;
+            font-family: 'Cairo'; font-size: 0.8rem;
         }
 
-        /* --- شريط التواصل الجديد والشيك --- */
+        /* --- رسائل النظام --- */
+        .details-box {
+            background: #fcfcfc; border: 1px dashed var(--primary-gold);
+            border-radius: 12px; padding: 12px; margin: 10px 0; text-align: right;
+        }
+        .detail-item { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.8rem; }
+        .detail-label { color: #64748b; }
+        .detail-value { color: var(--dark-deep); font-weight: 700; }
+
+        .status-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            background: rgba(197, 160, 89, 0.1); color: var(--primary-gold);
+            font-size: 0.7rem; font-weight: 800; margin-bottom: 8px;
+        }
+
+        .hint-error { color: var(--error-red); font-size: 0.75rem; font-weight: 700; display: none; margin-bottom: 8px; }
+
+        .email-note { font-size: 0.7rem; color: #64748b; margin-top: 8px; line-height: 1.4; font-weight: 600; }
+
+        /* شريط التواصل السفلي */
         .social-nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 15px 10px;
-            background: #ffffff;
-            border-top: 1px solid #f1f5f9;
+            display: flex; justify-content: space-around; align-items: center;
+            padding: 8px 10px; background: #fff; border-top: 1px solid #f1f5f9; flex-shrink: 0;
         }
-
-        .social-item {
-            text-decoration: none;
-            transition: var(--transition-smooth);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .social-item img {
-            width: 30px;
-            height: 30px;
-            transition: var(--transition-smooth);
-        }
-
-        .social-item:hover {
-            transform: translateY(-5px);
-        }
-
-        /* تمييز زر الواتساب في المنتصف */
+        .social-item img { width: 26px; height: 26px; transition: 0.3s; }
         .whatsapp-main {
-            background: #25d366;
-            padding: 12px;
-            border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
-            position: relative;
-            transform: translateY(-10px); 
+            background: #25d366; padding: 10px; border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transform: translateY(-10px);
         }
+        .whatsapp-main img { width: 26px; height: 26px; filter: brightness(0) invert(1); }
 
-        /* أيقونة الواتساب الرسمية البيضاء */
-        .whatsapp-main img {
-            width: 32px;
-            height: 32px;
-            filter: brightness(0) invert(1); 
-        }
-
-        /* أنيميشن النبض للواتساب */
-        @keyframes pulse-green {
-            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
-        }
-
-        .whatsapp-main {
-            animation: pulse-green 2s infinite;
-        }
-
-        /* --- الختم الذهبي اللامع (حقوق الملكية) --- */
+        /* الختم الذهبي */
         .brand-footer {
-            text-align: center;
-            padding: 15px 0;
-            background: #ffffff;
-            font-size: 0.85rem;
-            font-weight: 800;
-            background: var(--gradient-gold); /* لون ذهبي للختم بالكامل */
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            position: relative;
-            animation: glow-gold 3s ease-in-out infinite;
-            letter-spacing: 1px;
+            text-align: center; padding: 5px 0 10px 0; background: #fff;
+            font-size: 0.75rem; font-weight: 800;
+            background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        /* أنيميشن اللمعة (Glow) للختم */
-        @keyframes glow-gold {
-            0%, 100% { filter: drop-shadow(0 0 2px rgba(197, 160, 89, 0.4)); opacity: 0.8; }
-            50% { filter: drop-shadow(0 0 10px rgba(197, 160, 89, 0.8)); opacity: 1; }
-        }
-
+        /* تعديل الاتجاه للإنجليزية */
+        .en-mode { direction: ltr !important; }
+        .en-mode .details-box { text-align: left !important; }
     </style>
 </head>
 
 <body>
 
-<!-- شاشة الترحيب مع التوقيع التلقائي -->
 <div id="splash"></div>
 
 <div class="app" id="mainApp">
-    <!-- السلايدر العلوي -->
+    <div class="lang-btn" id="langBtn" onclick="toggleLanguage()">EN</div>
+    
+    <!-- البانر المطور -->
     <div class="header-slider swiper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600" alt="Slide 1">
-                <div class="banner-text"><h1>أهلاً بك في نظامك الذكي</h1></div>
-            </div>
-            <div class="swiper-slide">
-                <img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=600" alt="Slide 2">
-                <div class="banner-text"><h1>إدارة الحجوزات بكل سهولة</h1></div>
-            </div>
+            <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600"><div class="banner-text"><h1 id="txt-b1">نظام الحجز الذكي المستقبلي</h1></div></div>
+            <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=600"><div class="banner-text"><h1 id="txt-b2">أناقة التصميم وسهولة الاستخدام</h1></div></div>
+            <div class="swiper-slide"><img src="https://i.ibb.co/kgm39Svk/Bannar-2-LOG3.png"><div class="banner-text"><h1 id="txt-b3">شريكك التقني في إدارة الحجوزات</h1></div></div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
 
-    <!-- المحتوى المتغير -->
     <div id="contentArea" class="main-content"></div>
 
-    <!-- شريط التواصل المطور بأيقونة الواتساب -->
     <div class="social-nav">
-        <!-- انستغرام -->
-        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
-        
-        <!-- فيسبوك -->
-        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
-        
-        <!-- زر الواتساب الرسمي (المنتصف) -->
-        <a href="https://wa.me/XXXXXXXXXXX" class="social-item whatsapp-main"><img src="https://i.ibb.co/21NBtNqn/Pngtree-whatsapp-icon-logo-whatsapp-icon-3560535.png" alt="WhatsApp"></a>
-        
-        <!-- مشاركة -->
-        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828960.png" alt="Share"></a>
-        
-        <!-- تيك توك -->
-        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
+        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png"></a>
+        <a href="https://wa.me/XXXXXXXXXXX" class="social-item whatsapp-main"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png"></a>
+        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828960.png"></a>
+        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png"></a>
     </div>
 
-    <!-- الختم الذهبي اللامع للحقوق -->
-    <div class="brand-footer">
-        Future reservation system © 2026
-    </div>
+    <div class="brand-footer">Future reservation system © 2026</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-// إعدادات النظام
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKvGZcmSHyOaKOt_YG2IcILKzGBNczUY4n3OdcruT5sY1Bu-yYVsIbkzL-RjBdSSx3/exec";
 const contentArea = document.getElementById('contentArea');
+let CLIENT_NAME = "", CLIENT_EMAIL = "";
+let currentLang = 'ar';
 
-let CLIENT_NAME = "";
-let CLIENT_EMAIL = "";
+// قاموس الترجمة
+const i18n = {
+    ar: {
+        b1: "نظام الحجز الذكي المستقبلي", b2: "أناقة التصميم وسهولة الاستخدام", b3: "شريكك التقني في إدارة الحجوزات",
+        choose: "اختر الخدمة", demo: "تجربة النسخة التجريبية", buy: "شراء النسخة الكاملة",
+        setup: "إعداد التجربة", bizName: "اسم النشاط التجاري", bizEmail: "بريدك الإلكتروني",
+        enter: "دخول النظام", back: "رجوع",
+        formTitle: "نموذج الحجز", namePl: "الاسم ثلاثي", phonePl: "رقم الهاتف", confirm: "تأكيد الحجز",
+        nameErr: "⚠️ يجب كتابة الاسم ثلاثي", phoneErr: "⚠️ من فضلك أدخل 11 رقم", emailErr: "⚠️ يرجى إدخال إيميل صحيح يحتوي على @",
+        fridayErr: "⚠️ عذراً، الجمعة إجازة رسمية",
+        processing: "جاري معالجة طلبك الفاخر...",
+        dupTitle: "حجز قائم بالفعل", dupMsg: "نحيطكم علماً بأن سجلاتنا تشير إلى وجود طلب حجز مسبق مسجل بهذا الرقم. يرجى مراجعة الإيصال السابق أو التواصل مع الدعم.",
+        adminBadge: "تنبيه إداري",
+        successTitle: "تم تأكيد الطلب", successHero: "شكراً لثقتكم، إليكم تفاصيل الإيصال الرقمي:",
+        receiptId: "رقم الإيصال:", bookingDate: "تاريخ الحجز:", regTime: "وقت التسجيل:", status: "الحالة:", approved: "معتمد",
+        emailNotice: "يرجى مراجعة بريدك الإلكتروني للاطلاع على تفاصيل الحجز المرسلة إليكم.",
+        home: "العودة للرئيسية", nameBuy: "الاسم", phoneBuy: "رقم الهاتف", send: "إرسال الطلب", buySuccess: "تم استلام طلبك، سنتواصل معك قريباً."
+    },
+    en: {
+        b1: "Future Smart Booking System", b2: "Elegant Design & Ease of Use", b3: "Your Tech Partner in Reservations",
+        choose: "Choose Service", demo: "Try Demo Version", buy: "Buy Full Version",
+        setup: "Setup Experience", bizName: "Business Name", bizEmail: "Your Email",
+        enter: "Enter System", back: "Back",
+        formTitle: "Booking Form", namePl: "Full Name", phonePl: "Phone Number", confirm: "Confirm Booking",
+        nameErr: "⚠️ Full name is required", phoneErr: "⚠️ Please enter 11 digits", emailErr: "⚠️ Enter a valid email with @",
+        fridayErr: "⚠️ Sorry, Friday is a holiday",
+        processing: "Processing your luxury request...",
+        dupTitle: "Existing Reservation", dupMsg: "Please note that our records show a previous booking registered with this number. Please check your receipt.",
+        adminBadge: "Admin Alert",
+        successTitle: "Order Confirmed", successHero: "Thank you for your trust, here are your receipt details:",
+        receiptId: "Receipt ID:", bookingDate: "Booking Date:", regTime: "Registration Time:", status: "Status:", approved: "Approved",
+        emailNotice: "Please check your email to view the booking details sent to you.",
+        home: "Back to Home", nameBuy: "Name", phoneBuy: "Phone", send: "Send Request", buySuccess: "Request received, we will contact you soon."
+    }
+};
 
-// إخفاء الـ Splash وفتح التطبيق
+function toggleLanguage() {
+    currentLang = currentLang === 'ar' ? 'en' : 'ar';
+    document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
+    document.body.classList.toggle('en-mode', currentLang === 'en');
+    
+    // تحديث البانر
+    document.getElementById('txt-b1').innerText = i18n[currentLang].b1;
+    document.getElementById('txt-b2').innerText = i18n[currentLang].b2;
+    document.getElementById('txt-b3').innerText = i18n[currentLang].b3;
+    
+    loadModeSelection();
+}
+
 window.addEventListener('load', () => {
     setTimeout(() => {
         document.getElementById('splash').style.opacity = '0';
@@ -288,38 +248,27 @@ window.addEventListener('load', () => {
     }, 2500);
 });
 
-// تهيئة السلايدر (البانر)
-new Swiper('.swiper', { 
-    loop: true, 
-    autoplay: { delay: 4000 }, 
-    pagination: { el: '.swiper-pagination', clickable: true } 
-});
+new Swiper('.swiper', { loop: true, autoplay: { delay: 4000 }, pagination: { el: '.swiper-pagination', clickable: true } });
 
-// دالة عرض الصفحة الرئيسية
 function loadModeSelection(){
-    contentArea.style.opacity = '0';
-    setTimeout(() => {
-        contentArea.innerHTML = `
-        <div class="card" style="text-align:center;">
-            <h3 style="margin-bottom:20px; color:var(--dark-deep)">اختر نوع التجربة</h3>
-            <button class="btn btn-gold" onclick="startDemoSetup()">ابدأ النسخة التجريبية</button>
-            <button class="btn" onclick="startBuy()">طلب شراء النسخة الكاملة</button>
-        </div>`;
-        contentArea.style.opacity = '1';
-    }, 200);
+    contentArea.innerHTML = `
+    <div class="card" style="text-align:center;">
+        <h3><i class="fa-solid fa-star" style="color:var(--primary-gold)"></i> ${i18n[currentLang].choose}</h3>
+        <button class="btn btn-gold" onclick="startDemoSetup()"><i class="fa-solid fa-vial"></i> ${i18n[currentLang].demo}</button>
+        <button class="btn" onclick="startBuy()"><i class="fa-solid fa-crown"></i> ${i18n[currentLang].buy}</button>
+    </div>`;
 }
 
-// دالة إعداد التجربة
 function startDemoSetup(){
     contentArea.innerHTML = `
     <div class="card">
-        <h4 style="margin-bottom:15px;">إعدادات التجربة</h4>
+        <h4><i class="fa-solid fa-gear"></i> ${i18n[currentLang].setup}</h4>
         <div class="booking-form">
-            <input id="bizName" type="text" placeholder="اسم النشاط التجاري" value="${CLIENT_NAME}">
-            <input id="bizEmail" type="email" placeholder="بريدك الإلكتروني المستلم" value="${CLIENT_EMAIL}" oninput="validateEmail(this)">
-            <div id="emailErr" class="hint-error">⚠️ يرجى إدخال إيميل صحيح يحتوي على @</div>
-            <button class="btn btn-gold" onclick="saveDemo()">دخول النظام</button>
-            <button class="btn" style="background:#f1f5f9; color:#64748b; box-shadow:none;" onclick="loadModeSelection()">رجوع</button>
+            <input id="bizName" type="text" placeholder="${i18n[currentLang].bizName}" value="${CLIENT_NAME}">
+            <input id="bizEmail" type="email" placeholder="${i18n[currentLang].bizEmail}" value="${CLIENT_EMAIL}" oninput="validateEmail(this)">
+            <div id="emailErr" class="hint-error">${i18n[currentLang].emailErr}</div>
+            <button class="btn btn-gold" onclick="saveDemo()">${i18n[currentLang].enter}</button>
+            <button class="btn" style="background:#f1f5f9; color:#64748b;" onclick="loadModeSelection()">${i18n[currentLang].back}</button>
         </div>
     </div>`;
 }
@@ -332,32 +281,27 @@ function validateEmail(el) {
 function saveDemo(){
     CLIENT_NAME = document.getElementById('bizName').value;
     CLIENT_EMAIL = document.getElementById('bizEmail').value;
-
-    if(!CLIENT_NAME || !CLIENT_EMAIL || !CLIENT_EMAIL.includes('@')) {
-        alert("يرجى تعبئة اسم النشاط والبريد الإلكتروني بشكل صحيح");
-        return;
+    if(!CLIENT_NAME || !CLIENT_EMAIL || !CLIENT_EMAIL.includes('@')) { 
+        alert(currentLang === 'ar' ? "يرجى إكمال البيانات بدقة" : "Please fill details accurately"); 
+        return; 
     }
     startBooking();
 }
 
-// دالة نموذج الحجز
 function startBooking(){
     let today = new Date().toISOString().split('T')[0];
     contentArea.innerHTML = `
     <div class="card">
-        <h4 style="margin-bottom:15px; color:var(--primary-gold)">نموذج الحجز الذكي</h4>
+        <h4 style="color:var(--primary-gold)"><i class="fa-solid fa-calendar-plus"></i> ${i18n[currentLang].formTitle}</h4>
         <div class="booking-form">
-            <input id="pName" type="text" placeholder="الاسم ثلاثي" oninput="validateName(this)">
-            <div id="nameErr" class="hint-error">⚠️ يجب كتابة الاسم ثلاثي على الأقل</div>
-
-            <input id="pPhone" type="tel" maxlength="11" placeholder="رقم الهاتف (بالإنجليزي)" oninput="validatePhone(this)">
-            <div id="phoneErr" class="hint-error">⚠️ من فضلك أدخل 11 رقم</div>
-
+            <input id="pName" type="text" placeholder="${i18n[currentLang].namePl}" oninput="validateName(this)">
+            <div id="nameErr" class="hint-error">${i18n[currentLang].nameErr}</div>
+            <input id="pPhone" type="tel" maxlength="11" placeholder="${i18n[currentLang].phonePl}" oninput="validatePhone(this)">
+            <div id="phoneErr" class="hint-error">${i18n[currentLang].phoneErr}</div>
             <input type="date" id="pDate" min="${today}" onchange="validateDate(this)">
-            <div id="dateErr" class="hint-error">⚠️ عذراً، الجمعة إجازة رسمية، يرجى اختيار يوم آخر</div>
-
-            <button class="btn btn-gold" onclick="submitBooking()">تأكيد الحجز الآن</button>
-            <button class="btn btn-back" style="background:#e2e8f0; color:#64748b;" onclick="startDemoSetup()">تعديل بيانات النشاط</button>
+            <div id="dateErr" class="hint-error">${i18n[currentLang].fridayErr}</div>
+            <button class="btn btn-gold" onclick="submitBooking()">${i18n[currentLang].confirm}</button>
+            <button class="btn" style="background:#e2e8f0; color:#64748b;" onclick="startDemoSetup()">${i18n[currentLang].back}</button>
         </div>
     </div>`;
 }
@@ -377,89 +321,78 @@ function validatePhone(el) {
 function validateDate(el) {
     const err = document.getElementById('dateErr');
     const day = new Date(el.value).getDay();
-    if(day === 5) { 
-        err.style.display = 'block';
-        el.value = '';
-    } else {
-        err.style.display = 'none';
-    }
+    if(day === 5) { err.style.display = 'block'; el.value = ''; } 
+    else { err.style.display = 'none'; }
 }
 
-// دالة إرسال البيانات
 function submitBooking(){
     let name = document.getElementById('pName').value.trim();
     let phone = document.getElementById('pPhone').value;
     let date = document.getElementById('pDate').value;
-
-    if(name.split(/\s+/).length < 3 || phone.length != 11 || !date) {
-        alert("يرجى تصحيح الأخطاء وإكمال البيانات المطلوبة");
-        return;
+    if(name.split(/\s+/).length < 3 || phone.length < 11 || !date) { 
+        alert(currentLang === 'ar' ? "يرجى مراجعة البيانات" : "Please review data"); 
+        return; 
     }
 
-    contentArea.innerHTML = `<div class="msg">جاري معالجة طلبك...</div>`;
+    contentArea.innerHTML = `<div class="card" style="text-align:center;"><i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem; color:var(--primary-gold)"></i><p style="font-size:0.85rem;">${i18n[currentLang].processing}</p></div>`;
 
     fetch(SCRIPT_URL, {
         method: "POST",
-        body: JSON.stringify({
-            name, phone, bookingDate: date,
-            source: CLIENT_NAME, clientEmail: CLIENT_EMAIL,
-            mode: "demo"
-        })
+        body: JSON.stringify({ name, phone, bookingDate: date, source: CLIENT_NAME, clientEmail: CLIENT_EMAIL, mode: "demo" })
     })
     .then(r => r.json())
     .then(data => {
         if(data.status == "duplicated") {
             contentArea.innerHTML = `
-            <div class="msg" style="border-right-color:#ef4444; text-align:right;">
-                <h3 style="color:#ef4444; text-align:center;">⚠️ تنبيه بوجود حجز!</h3>
-                <div style="font-weight:700; line-height:1.8; color:var(--dark-deep);">
-                    ${data.message}
+            <div class="card" style="border-top: 4px solid var(--primary-gold);">
+                <div class="status-badge"><i class="fa-solid fa-circle-exclamation"></i> ${i18n[currentLang].adminBadge}</div>
+                <h3 style="color:var(--dark-deep); margin-bottom:10px;">${i18n[currentLang].dupTitle}</h3>
+                <p style="font-size:0.8rem; color:#64748b; line-height:1.6;">${i18n[currentLang].dupMsg}</p>
+                <div class="details-box" style="background: rgba(197, 160, 89, 0.03);">
+                    <p style="font-size:0.75rem; color:var(--primary-gold); font-weight:700; margin:0; text-align:center;">${data.message}</p>
                 </div>
-                <button class="btn" style="margin-top:20px" onclick="startBooking()">حاول مجدداً</button>
+                <button class="btn btn-gold" onclick="startBooking()">${i18n[currentLang].back}</button>
             </div>`;
         } else {
+            let now = new Date();
+            let timeStr = now.getHours() + ":" + now.getMinutes().toString().padStart(2, '0');
             contentArea.innerHTML = `
-            <div class="msg">
-                <h3 style="color:var(--primary-gold)">تم الحجز بنجاح!</h3>
-                شكراً لثقتك بـ ${CLIENT_NAME}<br>
-                📌 رقم الإيصال: <b style="font-size:22px; color:var(--dark-deep);">${data.id}</b><br>
-                📅 اليوم: <b>${date}</b><br><br>
-                تم إرسال الإيصال إلى بريدك:<br>
-                <span style="color:var(--primary-gold)">${CLIENT_EMAIL}</span>
-                <button class="btn" style="margin-top:20px" onclick="loadModeSelection()">العودة للرئيسية</button>
+            <div class="card" style="text-align:center; border-top: 4px solid #22c55e;">
+                <i class="fa-solid fa-circle-check" style="font-size:2.2rem; color:#22c55e; margin-bottom:10px;"></i>
+                <h3 style="color:var(--dark-deep); margin-bottom:5px;">${i18n[currentLang].successTitle}</h3>
+                <p style="font-size:0.75rem; color:#64748b; margin-bottom:15px;">${i18n[currentLang].successHero}</p>
+                <div class="details-box">
+                    <div class="detail-item"><span class="detail-label">${i18n[currentLang].receiptId}</span><span class="detail-value">#${data.id}</span></div>
+                    <div class="detail-item"><span class="detail-label">${i18n[currentLang].bookingDate}</span><span class="detail-value">${date}</span></div>
+                    <div class="detail-item"><span class="detail-label">${i18n[currentLang].regTime}</span><span class="detail-value">${timeStr}</span></div>
+                    <div class="detail-item"><span class="detail-label">${i18n[currentLang].status}</span><span class="detail-value" style="color:#22c55e;">${i18n[currentLang].approved}</span></div>
+                </div>
+                <p class="email-note"><i class="fa-solid fa-envelope-open-text" style="color:var(--primary-gold)"></i> ${i18n[currentLang].emailNotice}</p>
+                <button class="btn btn-gold" onclick="loadModeSelection()">${i18n[currentLang].home}</button>
             </div>`;
         }
     })
-    .catch(err => {
-        alert("حدث خطأ في الاتصال، حاول مرة أخرى");
-        startBooking();
-    });
+    .catch(err => { alert("Error"); startBooking(); });
 }
 
-// دالة طلب الشراء
 function startBuy(){
     contentArea.innerHTML = `
     <div class="card">
-        <h3>طلب النسخة الكاملة</h3>
+        <h3><i class="fa-solid fa-basket-shopping"></i> ${i18n[currentLang].buy}</h3>
         <div class="booking-form">
-            <input id="buyName" placeholder="الاسم">
-            <input id="buyPhone" placeholder="رقم الهاتف" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-            <button class="btn btn-gold" onclick="submitBuy()">إرسال طلب الشراء</button>
-            <button class="btn" style="background:#f1f5f9; color:#64748b;" onclick="loadModeSelection()">رجوع</button>
+            <input id="buyName" placeholder="${i18n[currentLang].nameBuy}">
+            <input id="buyPhone" placeholder="${i18n[currentLang].phoneBuy}">
+            <button class="btn btn-gold" onclick="submitBuy()">${i18n[currentLang].send}</button>
+            <button class="btn" style="background:#f1f5f9; color:#64748b;" onclick="loadModeSelection()">${i18n[currentLang].back}</button>
         </div>
     </div>`;
 }
 
 function submitBuy(){
-    let name = document.getElementById('buyName').value;
-    let phone = document.getElementById('buyPhone').value;
+    let name = document.getElementById('buyName').value, phone = document.getElementById('buyPhone').value;
     if(!name || !phone) return;
-
-    fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify({ mode: "buy", name, phone })
-    });
-    alert("تم الإرسال بنجاح، سنتواصل معك قريباً.");
+    fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ mode: "buy", name, phone }) });
+    alert(i18n[currentLang].buySuccess);
     loadModeSelection();
 }
 </script>
