@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
     <style>
+
         /* --- 1. المتغيرات والأساسيات الفخمة --- */
         :root {
             --primary-gold: #c5a059; /* لون ذهبي بريميوم */
@@ -142,6 +143,34 @@
         .social-item img { width: 28px; transition: 0.3s; filter: grayscale(1); opacity: 0.6; }
         .social-item:hover img { filter: grayscale(0); opacity: 1; transform: scale(1.2); }
 
+/* 👇 أضف ده داخل style في الآخر */
+
+/* ===== LOGO ANIMATION ===== */
+.logo-img {
+    width: 140px;
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: scale(0.7);
+    animation: logoFade 1.5s ease forwards;
+}
+
+.logo-text {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: textFade 1.5s ease forwards;
+    animation-delay: 0.5s;
+}
+
+@keyframes logoFade {
+    0% { opacity: 0; transform: scale(0.7); }
+    60% { opacity: 1; transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes textFade {
+    to { opacity: 1; transform: translateY(0); }
+}
+
     </style>
 </head>
 
@@ -149,12 +178,9 @@
 
 <!-- شاشة الترحيب واللوجو -->
 <div id="splash">
-    <div class="logo-container">
-        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #0f172a;"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-    </div>
-    <h2 style="font-weight: 800; letter-spacing: 1px;">PREMIUM SYSTEM</h2>
+    <img src="https://res.cloudinary.com/dfsqa04d8/image/upload/f_auto,q_auto/Promo_LOGO_xffnja" class="logo-img">
+    <h2 class="logo-text">Future Reservation System</h2>
 </div>
-
 <div class="app" id="mainApp">
     <!-- السلايدر العلوي -->
     <div class="header-slider swiper">
