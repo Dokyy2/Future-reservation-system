@@ -21,18 +21,25 @@
             --error-red: #ef4444;
         }
 
-        /* الثيم الأزرق الملكي */
+        /* الثيم اللبني (Sky Blue) */
+        [data-theme="sky"] {
+            --primary-gold: #0ea5e9;
+            --gradient-gold: linear-gradient(135deg, #0ea5e9 0%, #7dd3fc 100%);
+            --dark-deep: #0c4a6e;
+        }
+
+        /* الثيم الأحمر (Premium Red) */
+        [data-theme="red"] {
+            --primary-gold: #e11d48;
+            --gradient-gold: linear-gradient(135deg, #e11d48 0%, #fb7185 100%);
+            --dark-deep: #4c0519;
+        }
+
+        /* الثيم الملكي (القديم لمنعه من الضياع) */
         [data-theme="royal"] {
             --primary-gold: #2563eb;
             --gradient-gold: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 100%);
             --dark-deep: #1e293b;
-        }
-
-        /* الثيم البنفسجي الحديث */
-        [data-theme="modern"] {
-            --primary-gold: #8b5cf6;
-            --gradient-gold: linear-gradient(135deg, #7c3aed 0%, #c4b5fd 100%);
-            --dark-deep: #2e1065;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
@@ -45,7 +52,6 @@
 
         body { display: flex; justify-content: center; align-items: center; }
 
-        /* شاشة التحميل */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             background: #000; z-index: 9999;
@@ -68,7 +74,6 @@
             overflow: hidden;
         }
 
-        /* أزرار التحكم العلوية */
         .controls-top {
             position: absolute; top: 15px; left: 15px; right: 15px;
             display: flex; justify-content: space-between; z-index: 100;
@@ -166,7 +171,6 @@
 <div id="splash"></div>
 
 <div class="app" id="mainApp">
-    <!-- أزرار التحكم العلوية المحدثة -->
     <div class="controls-top">
         <div class="lang-btn" id="langBtn" onclick="toggleLanguage()">EN</div>
         <div class="theme-btn" onclick="nextTheme()"><i class="fa-solid fa-palette"></i></div>
@@ -197,12 +201,11 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
-// الإعدادات الأساسية
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUuCywYw66rpY7nChKRKrgD1C24t8U70H7wRxtp9va6eM3ycvlpo3MYQnU0Z_qkLeC/exec";
 const contentArea = document.getElementById('contentArea');
 let CLIENT_NAME = "", CLIENT_EMAIL = "";
 let currentLang = 'ar';
-let themes = ['gold', 'royal', 'modern'];
+let themes = ['gold', 'sky', 'red', 'royal']; // الثيمات المتاحة
 let currentThemeIndex = 0;
 let swiper;
 
@@ -249,7 +252,7 @@ const i18n = {
     }
 };
 
-// تهيئة السلايدر
+// تهيئة السلايدر لضمان عدم الاختفاء
 function initSwiper() {
     if (swiper) swiper.destroy();
     swiper = new Swiper('.swiper', { 
@@ -261,7 +264,7 @@ function initSwiper() {
     });
 }
 
-// تبديل اللغة
+// تبديل اللغة مع حل مشكلة البانر
 function toggleLanguage() {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
     document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
@@ -274,13 +277,13 @@ function toggleLanguage() {
     
     loadModeSelection();
     
-    // حل مشكلة اختفاء البانر: إعادة التحديث
+    // إعادة تهيئة السلايدر فوراً بعد تغيير اللغة
     setTimeout(() => {
         initSwiper();
     }, 100);
 }
 
-// تبديل الثيمات
+// تبديل الثيمات المتعددة
 function nextTheme() {
     currentThemeIndex = (currentThemeIndex + 1) % themes.length;
     const theme = themes[currentThemeIndex];
@@ -312,7 +315,6 @@ function loadModeSelection(){
     </div>`;
 }
 
-// باقي الدوال البرمجية (كما هي بدون تغيير في المنطق)
 function startDemoSetup(){
     contentArea.innerHTML = `
     <div class="card">
