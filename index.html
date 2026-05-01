@@ -35,7 +35,7 @@
             --dark-deep: #4c0519;
         }
 
-        /* الثيم الملكي (القديم لمنعه من الضياع) */
+        /* الثيم الملكي */
         [data-theme="royal"] {
             --primary-gold: #2563eb;
             --gradient-gold: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 100%);
@@ -144,16 +144,40 @@
 
         .hint-error { color: var(--error-red); font-size: 0.75rem; font-weight: 700; display: none; margin-bottom: 8px; }
 
+        /* --- شريط التواصل المطور --- */
         .social-nav {
             display: flex; justify-content: space-around; align-items: center;
-            padding: 8px 10px; background: #fff; border-top: 1px solid #f1f5f9; flex-shrink: 0;
+            padding: 15px 10px; background: #fff; border-top: 1px solid #f1f5f9; 
+            flex-shrink: 0; gap: 10px;
         }
-        .social-item img { width: 26px; height: 26px; transition: 0.3s; }
+        
+        .social-item {
+            width: 42px; height: 42px; display: flex; justify-content: center; align-items: center;
+            border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none; font-size: 1.2rem; color: var(--dark-deep);
+        }
+
+        .social-item:active { transform: translateY(-5px) scale(1.1); box-shadow: 0 10px 15px rgba(0,0,0,0.1); }
+        
         .whatsapp-main {
-            background: #25d366; padding: 10px; border-radius: 50%;
-            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); transform: translateY(-10px);
+            width: 55px; height: 55px; background: #25d366 !important; color: white !important;
+            border-radius: 50% !important; border: none !important;
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.4);
+            font-size: 1.8rem !important; transform: translateY(-15px);
+            animation: pulse-whatsapp 2s infinite;
         }
-        .whatsapp-main img { width: 26px; height: 26px; filter: brightness(0) invert(1); }
+
+        @keyframes pulse-whatsapp {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        .social-item.fb { color: #1877f2; }
+        .social-item.ig { color: #e4405f; }
+        .social-item.tk { color: #000; }
+        .social-item.yt { color: #ff0000; }
 
         .brand-footer {
             text-align: center; padding: 5px 0 10px 0; background: #fff;
@@ -175,23 +199,25 @@
         <div class="lang-btn" id="langBtn" onclick="toggleLanguage()">EN</div>
         <div class="theme-btn" onclick="nextTheme()"><i class="fa-solid fa-palette"></i></div>
     </div>
+    
     <div class="header-slider swiper">
         <div class="swiper-wrapper" id="banner-wrapper">
             <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600"><div class="banner-text"><h1 id="txt-b1">نظام الحجز الذكي المستقبلي</h1></div></div>
-            <div class="swiper-slide"><img src="https://i.ibb.co/Csskbz18/02-Bannar1400.png"></div>
-            <div class="swiper-slide"><img src="https://i.ibb.co/kgm39Svk/Bannar-2-LOG3.png"></div>
+            <div class="swiper-slide"><img src="https://i.ibb.co/NgNZPHsB/Bannar-1.png"></div>
+            <div class="swiper-slide"><img src="https://i.ibb.co/kgm39Svk/Bannar-2-LOG3.png"><div
         </div>
         <div class="swiper-pagination"></div>
     </div>
 
     <div id="contentArea" class="main-content"></div>
 
+    <!-- شريط التواصل المطور -->
     <div class="social-nav">
-        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png"></a>
-        <a href="https://wa.me/201122750229" class="social-item whatsapp-main"><img src="https://i.ibb.co/21NBtNqn/Pngtree-whatsapp-icon-logo-whatsapp-icon-3560535.png"></a>
-        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828960.png"></a>
-        <a href="#" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png"></a>
+        <a href="#" class="social-item fb"><i class="fa-brands fa-facebook-f"></i></a>
+        <a href="#" class="social-item ig"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://wa.me/201122750229" class="social-item whatsapp-main"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#" class="social-item tk"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#" class="social-item yt"><i class="fa-brands fa-youtube"></i></a>
     </div>
 
     <div class="brand-footer">Future reservation system © 2026</div>
@@ -204,7 +230,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUuCywYw66rpY7nChKR
 const contentArea = document.getElementById('contentArea');
 let CLIENT_NAME = "", CLIENT_EMAIL = "";
 let currentLang = 'ar';
-let themes = ['gold', 'sky', 'red', 'royal']; // الثيمات المتاحة
+let themes = ['gold', 'sky', 'red', 'royal']; 
 let currentThemeIndex = 0;
 let swiper;
 
@@ -251,7 +277,6 @@ const i18n = {
     }
 };
 
-// تهيئة السلايدر لضمان عدم الاختفاء
 function initSwiper() {
     if (swiper) swiper.destroy();
     swiper = new Swiper('.swiper', { 
@@ -263,26 +288,17 @@ function initSwiper() {
     });
 }
 
-// تبديل اللغة مع حل مشكلة البانر
 function toggleLanguage() {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
     document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
     document.body.classList.toggle('en-mode', currentLang === 'en');
-    
-    // تحديث نصوص البانر
     document.getElementById('txt-b1').innerText = i18n[currentLang].b1;
     document.getElementById('txt-b2').innerText = i18n[currentLang].b2;
     document.getElementById('txt-b3').innerText = i18n[currentLang].b3;
-    
     loadModeSelection();
-    
-    // إعادة تهيئة السلايدر فوراً بعد تغيير اللغة
-    setTimeout(() => {
-        initSwiper();
-    }, 100);
+    setTimeout(() => { initSwiper(); }, 100);
 }
 
-// تبديل الثيمات المتعددة
 function nextTheme() {
     currentThemeIndex = (currentThemeIndex + 1) % themes.length;
     const theme = themes[currentThemeIndex];
@@ -385,9 +401,7 @@ async function submitBooking(){
     let phone = document.getElementById('pPhone').value;
     let date = document.getElementById('pDate').value;
     if(name.split(/\s+/).length < 3 || phone.length < 11 || !date) { return; }
-
     contentArea.innerHTML = `<div class="card" style="text-align:center;"><i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem; color:var(--primary-gold)"></i><p>${i18n[currentLang].processing}</p></div>`;
-
     try {
         const response = await fetch(SCRIPT_URL, {
             method: "POST",
@@ -439,20 +453,17 @@ async function submitBuy(){
     let name = document.getElementById('buyName').value.trim();
     let phone = document.getElementById('buyPhone').value;
     if(name.split(/\s+/).length < 3 || phone.length < 11) { return; }
-
     contentArea.innerHTML = `<div class="card" style="text-align:center;"><i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem; color:var(--primary-gold)"></i><p>${i18n[currentLang].processing}</p></div>`;
-
     try {
         const response = await fetch(SCRIPT_URL, {
             method: "POST",
             body: JSON.stringify({ mode: "buy", name, phone })
         });
         const data = await response.json();
-
         if(data.status === "success_buy") {
             contentArea.innerHTML = `
             <div class="card" style="text-align:center; border: 2px solid var(--primary-gold); background: linear-gradient(145deg, #ffffff, #fffcf5);">
-                <i class="fa-solid fa-crown" style="font-size:2.5rem; color:var(--primary-gold); margin-bottom:15px; filter: drop-shadow(0 2px 5px rgba(197,160,89,0.4));"></i>
+                <i class="fa-solid fa-crown" style="font-size:2.5rem; color:var(--primary-gold); margin-bottom:15px;"></i>
                 <h3 style="color:var(--primary-gold); font-weight:800; font-size:1.2rem;">${i18n[currentLang].buySuccessTitle}</h3>
                 <p style="font-size:0.85rem; color:var(--dark-deep); line-height:1.7; padding:0 10px;">${i18n[currentLang].buySuccessMsg}</p>
                 <div style="height:1px; background:var(--gradient-gold); margin:15px 0; opacity:0.3;"></div>
