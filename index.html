@@ -10,7 +10,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     <style>
+        /* --- تعريف المتغيرات لكل ثيم --- */
         :root { 
+            /* الثيم الافتراضي (الذهبي) */
             --primary-gold: #c5a059;
             --dark-deep: #0f172a;
             --luxury-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
@@ -19,15 +21,31 @@
             --error-red: #ef4444;
         }
 
+        /* الثيم الأزرق الملكي */
+        [data-theme="royal"] {
+            --primary-gold: #2563eb;
+            --gradient-gold: linear-gradient(135deg, #1d4ed8 0%, #60a5fa 100%);
+            --dark-deep: #1e293b;
+        }
+
+        /* الثيم البنفسجي الحديث */
+        [data-theme="modern"] {
+            --primary-gold: #8b5cf6;
+            --gradient-gold: linear-gradient(135deg, #7c3aed 0%, #c4b5fd 100%);
+            --dark-deep: #2e1065;
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         html, body { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             overflow: hidden; font-family: 'Cairo', sans-serif;
             background: #f8fafc; direction: rtl;
+            transition: var(--transition-smooth);
         }
 
         body { display: flex; justify-content: center; align-items: center; }
 
+        /* شاشة التحميل */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             background: #000; z-index: 9999;
@@ -50,12 +68,17 @@
             overflow: hidden;
         }
 
-        .lang-btn {
-            position: absolute; top: 15px; left: 15px; z-index: 100;
+        /* أزرار التحكم العلوية */
+        .controls-top {
+            position: absolute; top: 15px; left: 15px; right: 15px;
+            display: flex; justify-content: space-between; z-index: 100;
+        }
+
+        .lang-btn, .theme-btn {
             background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px);
             border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px;
             padding: 4px 12px; color: white; font-size: 0.7rem; font-weight: 700;
-            cursor: pointer; transition: 0.3s;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px;
         }
 
         .header-slider { width: 100%; height: 210px; position: relative; flex-shrink: 0; }
@@ -92,7 +115,7 @@
         }
         .btn:active { transform: scale(0.96); }
         .btn-gold { background: var(--gradient-gold); color: var(--dark-deep); }
-        .btn-whatsapp { background: #25d366; color: white; }
+        .btn-whatsapp { background: #25d366 !important; color: white; }
 
         .booking-form input {
             width: 100%; padding: 10px; border-radius: 10px;
@@ -143,7 +166,11 @@
 <div id="splash"></div>
 
 <div class="app" id="mainApp">
-    <div class="lang-btn" id="langBtn" onclick="toggleLanguage()">EN</div>
+    <!-- أزرار التحكم العلوية المحدثة -->
+    <div class="controls-top">
+        <div class="lang-btn" id="langBtn" onclick="toggleLanguage()">EN</div>
+        <div class="theme-btn" onclick="nextTheme()"><i class="fa-solid fa-palette"></i></div>
+    </div>
     
     <div class="header-slider swiper">
         <div class="swiper-wrapper" id="banner-wrapper">
@@ -170,10 +197,14 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
 <script>
+// الإعدادات الأساسية
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUuCywYw66rpY7nChKRKrgD1C24t8U70H7wRxtp9va6eM3ycvlpo3MYQnU0Z_qkLeC/exec";
 const contentArea = document.getElementById('contentArea');
 let CLIENT_NAME = "", CLIENT_EMAIL = "";
 let currentLang = 'ar';
+let themes = ['gold', 'royal', 'modern'];
+let currentThemeIndex = 0;
+let swiper;
 
 const i18n = {
     ar: {
@@ -218,26 +249,59 @@ const i18n = {
     }
 };
 
+// تهيئة السلايدر
+function initSwiper() {
+    if (swiper) swiper.destroy();
+    swiper = new Swiper('.swiper', { 
+        loop: true, 
+        autoplay: { delay: 4000 }, 
+        pagination: { el: '.swiper-pagination', clickable: true },
+        observer: true,
+        observeParents: true
+    });
+}
+
+// تبديل اللغة
 function toggleLanguage() {
     currentLang = currentLang === 'ar' ? 'en' : 'ar';
     document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
     document.body.classList.toggle('en-mode', currentLang === 'en');
+    
+    // تحديث نصوص البانر
     document.getElementById('txt-b1').innerText = i18n[currentLang].b1;
     document.getElementById('txt-b2').innerText = i18n[currentLang].b2;
     document.getElementById('txt-b3').innerText = i18n[currentLang].b3;
+    
     loadModeSelection();
+    
+    // حل مشكلة اختفاء البانر: إعادة التحديث
+    setTimeout(() => {
+        initSwiper();
+    }, 100);
+}
+
+// تبديل الثيمات
+function nextTheme() {
+    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+    const theme = themes[currentThemeIndex];
+    if (theme === 'gold') {
+        document.documentElement.removeAttribute('data-theme');
+    } else {
+        document.documentElement.setAttribute('data-theme', theme);
+    }
 }
 
 window.addEventListener('load', () => {
     setTimeout(() => {
         document.getElementById('splash').style.opacity = '0';
         document.getElementById('mainApp').style.opacity = '1';
-        setTimeout(() => { document.getElementById('splash').style.display = 'none'; }, 1000);
+        setTimeout(() => { 
+            document.getElementById('splash').style.display = 'none'; 
+            initSwiper();
+        }, 1000);
         loadModeSelection();
     }, 2500);
 });
-
-new Swiper('.swiper', { loop: true, autoplay: { delay: 4000 }, pagination: { el: '.swiper-pagination', clickable: true } });
 
 function loadModeSelection(){
     contentArea.innerHTML = `
@@ -248,6 +312,7 @@ function loadModeSelection(){
     </div>`;
 }
 
+// باقي الدوال البرمجية (كما هي بدون تغيير في المنطق)
 function startDemoSetup(){
     contentArea.innerHTML = `
     <div class="card">
@@ -298,13 +363,13 @@ function startBooking(){
 function validateName(el) {
     const err = (el.id === 'pName') ? document.getElementById('nameErr') : document.getElementById('buyNameErr');
     const words = el.value.trim().split(/\s+/);
-    err.style.display = (words.length >= 3) ? 'none' : 'block';
+    if(err) err.style.display = (words.length >= 3) ? 'none' : 'block';
 }
 
 function validatePhone(el) {
     const err = (el.id === 'pPhone') ? document.getElementById('phoneErr') : document.getElementById('buyPhoneErr');
     el.value = el.value.replace(/[^0-9]/g, ''); 
-    err.style.display = (el.value.length === 11) ? 'none' : 'block';
+    if(err) err.style.display = (el.value.length === 11) ? 'none' : 'block';
 }
 
 function validateDate(el) {
@@ -360,9 +425,9 @@ function startBuy(){
         <h3><i class="fa-solid fa-basket-shopping"></i> ${i18n[currentLang].buy}</h3>
         <div class="booking-form">
             <input id="buyName" placeholder="${i18n[currentLang].nameBuy}" oninput="validateName(this)">
-            <div id="buyNameErr" class="hint-error">${i18n[currentLang].nameErr}</div>
+            <div id="buyNameErr" class="hint-error" style="display:none">${i18n[currentLang].nameErr}</div>
             <input id="buyPhone" placeholder="${i18n[currentLang].phoneBuy}" maxlength="11" oninput="validatePhone(this)">
-            <div id="buyPhoneErr" class="hint-error">${i18n[currentLang].phoneErr}</div>
+            <div id="buyPhoneErr" class="hint-error" style="display:none">${i18n[currentLang].phoneErr}</div>
             <button class="btn btn-gold" onclick="submitBuy()">${i18n[currentLang].send}</button>
             <button class="btn" style="background:#f1f5f9; color:#64748b;" onclick="loadModeSelection()">${i18n[currentLang].back}</button>
         </div>
@@ -384,7 +449,6 @@ async function submitBuy(){
         const data = await response.json();
 
         if(data.status === "success_buy") {
-            // رسالة النجاح الذهبية الفخمة
             contentArea.innerHTML = `
             <div class="card" style="text-align:center; border: 2px solid var(--primary-gold); background: linear-gradient(145deg, #ffffff, #fffcf5);">
                 <i class="fa-solid fa-crown" style="font-size:2.5rem; color:var(--primary-gold); margin-bottom:15px; filter: drop-shadow(0 2px 5px rgba(197,160,89,0.4));"></i>
@@ -394,7 +458,6 @@ async function submitBuy(){
                 <button class="btn btn-gold" onclick="loadModeSelection()">${i18n[currentLang].home}</button>
             </div>`;
         } else if(data.status === "duplicated_buy") {
-            // رسالة التكرار مع زر الواتساب
             contentArea.innerHTML = `
             <div class="card" style="text-align:center; border-top: 4px solid var(--error-red);">
                 <i class="fa-solid fa-circle-exclamation" style="font-size:2.2rem; color:var(--error-red); margin-bottom:10px;"></i>
@@ -405,7 +468,6 @@ async function submitBuy(){
             </div>`;
         }
     } catch (e) {
-        // في حالة فشل الاتصال نعرض زر الواتساب كحل بديل
         contentArea.innerHTML = `
         <div class="card" style="text-align:center;">
             <i class="fa-solid fa-wifi-slash" style="font-size:2rem; color:#64748b;"></i>
