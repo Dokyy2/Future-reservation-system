@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -19,6 +19,16 @@
             --gradient-gold: linear-gradient(135deg, #c5a059 0%, #ecd08d 100%);
             --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             --error-red: #ef4444;
+            --card-bg: #ffffff;
+            --body-bg: #f8fafc;
+        }
+
+        /* الثيم الليلي */
+        [data-theme="dark"] {
+            --dark-deep: #f8fafc;
+            --card-bg: #1e293b;
+            --body-bg: #0f172a;
+            --luxury-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
         /* الثيم اللبني (Sky Blue) */
@@ -46,12 +56,13 @@
         html, body { 
             margin: 0; padding: 0; width: 100%; height: 100%; 
             overflow: hidden; font-family: 'Cairo', sans-serif;
-            background: #f8fafc; direction: rtl;
+            background: var(--body-bg); direction: rtl;
             transition: var(--transition-smooth);
         }
 
         body { display: flex; justify-content: center; align-items: center; }
 
+        /* ===== Splash Screen ===== */
         #splash {
             position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
             background: #000; z-index: 9999;
@@ -69,7 +80,7 @@
 
         .app {
             width: 100%; max-width: 390px; height: 100dvh; 
-            display: flex; flex-direction: column; background: #ffffff;
+            display: flex; flex-direction: column; background: var(--card-bg);
             position: relative; opacity: 0; transition: opacity 1s ease;
             overflow: hidden;
         }
@@ -79,11 +90,13 @@
             display: flex; justify-content: space-between; z-index: 100;
         }
 
+        /* تكبير أيقونات التحكم */
         .lang-btn, .theme-btn {
-            background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px;
-            padding: 4px 12px; color: white; font-size: 0.7rem; font-weight: 700;
-            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 5px;
+            background: rgba(255, 255, 255, 0.25); backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 20px;
+            padding: 6px 16px; color: white; font-size: 0.9rem; font-weight: 800;
+            cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .header-slider { width: 100%; height: 210px; position: relative; flex-shrink: 0; }
@@ -96,15 +109,15 @@
 
         .main-content { 
             flex: 1; padding: 15px; display: flex; flex-direction: column; 
-            gap: 12px; background: linear-gradient(to bottom, #ffffff, #f1f5f9);
+            gap: 12px; background: transparent;
             overflow: hidden;
         }
 
         .card {
-            background: white; border-radius: 18px; padding: 15px;
+            background: var(--card-bg); border-radius: 18px; padding: 15px;
             box-shadow: var(--luxury-shadow); border: 1px solid rgba(0,0,0,0.02);
             animation: cardFadeIn 0.6s ease both;
-            width: 95%; margin: 0 auto;
+            width: 95%; margin: 0 auto; color: var(--dark-deep);
         }
 
         @keyframes cardFadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
@@ -119,22 +132,23 @@
             margin: 6px 0; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
         }
         .btn:active { transform: scale(0.96); }
-        .btn-gold { background: var(--gradient-gold); color: var(--dark-deep); }
+        [data-theme="dark"] .btn:not(.btn-gold):not(.btn-whatsapp) { background: #334155; color: white; }
+        .btn-gold { background: var(--gradient-gold); color: #0f172a; }
         .btn-whatsapp { background: #25d366 !important; color: white; }
 
         .booking-form input {
             width: 100%; padding: 10px; border-radius: 10px;
             border: 1.5px solid #e2e8f0; margin-bottom: 6px;
-            font-family: 'Cairo'; font-size: 0.8rem;
+            font-family: 'Cairo'; font-size: 0.8rem; background: transparent; color: var(--dark-deep);
         }
 
         .details-box {
-            background: #fcfcfc; border: 1px dashed var(--primary-gold);
+            background: rgba(197, 160, 89, 0.05); border: 1px dashed var(--primary-gold);
             border-radius: 12px; padding: 12px; margin: 10px 0; text-align: right;
         }
         .detail-item { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 0.8rem; }
         .detail-label { color: #64748b; }
-        .detail-value { color: var(--dark-deep); font-weight: 700; }
+        .detail-value { color: var(--primary-gold); font-weight: 700; }
 
         .status-badge {
             display: inline-block; padding: 4px 12px; border-radius: 20px;
@@ -144,16 +158,16 @@
 
         .hint-error { color: var(--error-red); font-size: 0.75rem; font-weight: 700; display: none; margin-bottom: 8px; }
 
-        /* --- شريط التواصل المطور --- */
+        /* شريط التواصل المطور */
         .social-nav {
             display: flex; justify-content: space-around; align-items: center;
-            padding: 15px 10px; background: #fff; border-top: 1px solid #f1f5f9; 
+            padding: 15px 10px; background: var(--card-bg); border-top: 1px solid rgba(0,0,0,0.05); 
             flex-shrink: 0; gap: 10px;
         }
         
         .social-item {
             width: 42px; height: 42px; display: flex; justify-content: center; align-items: center;
-            border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0;
+            border-radius: 12px; background: rgba(0,0,0,0.03);
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             text-decoration: none; font-size: 1.2rem; color: var(--dark-deep);
         }
@@ -180,19 +194,41 @@
         .social-item.yt { color: #ff0000; }
 
         .brand-footer {
-            text-align: center; padding: 5px 0 10px 0; background: #fff;
+            text-align: center; padding: 5px 0 10px 0; background: var(--card-bg);
             font-size: 0.75rem; font-weight: 800;
             background: var(--gradient-gold); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
         .en-mode { direction: ltr !important; }
         .en-mode .details-box { text-align: left !important; }
+
+        /* إضافات التنبيهات المودرن */
+        .live-hint { font-size: 0.7rem; color: var(--error-red); margin-top: -8px; margin-bottom: 8px; font-weight: 700; display: none; }
+        
+        .friday-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+            display: none; justify-content: center; align-items: center; z-index: 3000;
+        }
+        .fri-card {
+            background: white; padding: 25px; border-radius: 25px; width: 85%; max-width: 320px;
+            text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-top: 5px solid var(--error-red);
+        }
     </style>
 </head>
 
 <body>
 
 <div id="splash"></div>
+
+<div id="fridayAlert" class="friday-modal">
+    <div class="fri-card">
+        <i class="fa-solid fa-calendar-xmark" style="font-size: 3rem; color: var(--error-red); margin-bottom: 15px;"></i>
+        <h3 id="friT">عذراً، الجمعة إجازة</h3>
+        <p id="friM" style="font-size: 0.85rem; color: #64748b; line-height: 1.6;">يوم الجمعة من العطلات الرسمية. من فضلك اختر يوماً آخر للحجز.</p>
+        <button class="btn btn-gold" style="margin-top: 15px;" onclick="closeFri()">فهمت</button>
+    </div>
+</div>
 
 <div class="app" id="mainApp">
     <div class="controls-top">
@@ -203,15 +239,14 @@
     <div class="header-slider swiper">
         <div class="swiper-wrapper" id="banner-wrapper">
             <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=600"><div class="banner-text"><h1 id="txt-b1">نظام الحجز الذكي المستقبلي</h1></div></div>
-            <div class="swiper-slide"><img src="https://i.ibb.co/NgNZPHsB/Bannar-1.png"></div>
-            <div class="swiper-slide"><img src="https://i.ibb.co/kgm39Svk/Bannar-2-LOG3.png"><div
+            <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=600"><div class="banner-text"><h1 id="txt-b2">أناقة التصميم وسهولة الاستخدام</h1></div></div>
+            <div class="swiper-slide"><img src="https://i.ibb.co/kgm39Svk/Bannar-2-LOG3.png"><div class="banner-text"><h1 id="txt-b3">إدارة احترافية متكاملة</h1></div></div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
 
     <div id="contentArea" class="main-content"></div>
 
-    <!-- شريط التواصل المطور -->
     <div class="social-nav">
         <a href="#" class="social-item fb"><i class="fa-brands fa-facebook-f"></i></a>
         <a href="#" class="social-item ig"><i class="fa-brands fa-instagram"></i></a>
@@ -230,7 +265,7 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUuCywYw66rpY7nChKR
 const contentArea = document.getElementById('contentArea');
 let CLIENT_NAME = "", CLIENT_EMAIL = "";
 let currentLang = 'ar';
-let themes = ['gold', 'sky', 'red', 'royal']; 
+let themes = ['dark', 'gold', 'sky', 'red', 'royal']; 
 let currentThemeIndex = 0;
 let swiper;
 
@@ -244,7 +279,7 @@ const i18n = {
         nameErr: "⚠️ يجب كتابة الاسم ثلاثي", phoneErr: "⚠️ من فضلك أدخل 11 رقم", emailErr: "⚠️ يرجى إدخال إيميل صحيح يحتوي على @",
         fridayErr: "⚠️ عذراً، الجمعة إجازة رسمية",
         processing: "جاري تأكيد بيانات الحجز.. يرجى الانتظار",
-        dupTitle: "حجز قائم بالفعل", dupMsg: "نحيطكم علماً بأن سجلاتنا تشير إلى وجود طلب حجز مسبق مسجل بهذا الرقم. يرجى مراجعة الإيصال السابق أو التواصل مع الدعم.",
+        dupTitle: "حجز قائم بالفعل", dupMsg: "نحيطكم علماً بأن سجلاتنا تشير إلى وجود طلب حجز مسبق سجل بهذا الرقم. إليكم التفاصيل:",
         adminBadge: "تنبيه إداري",
         successTitle: "تم تأكيد الطلب", successHero: "شكراً لثقتكم، إليكم تفاصيل الإيصال الرقمي:",
         receiptId: "رقم الإيصال:", bookingDate: "تاريخ الحجز:", regTime: "وقت التسجيل:", status: "الحالة:", approved: "معتمد",
@@ -253,7 +288,9 @@ const i18n = {
         buySuccessTitle: "تهانينا! تم اشتراكك", 
         buySuccessMsg: "شكراً لاختيارك Future System. لقد استلمنا طلبك وستقوم خدمة العملاء بالتواصل معك في أقرب وقت ممكن لتفعيل النسخة الكاملة.",
         buyDupMsg: "عذراً، هذا الرقم مسجل لدينا بالفعل في طلبات الشراء. من فضلك تواصل مع خدمة العملاء للمتابعة.",
-        contactSupport: "تواصل مع خدمة العملاء"
+        contactSupport: "تواصل مع خدمة العملاء",
+        friT: "عذراً، يوم الجمعة إجازة",
+        friM: "يوم الجمعة من العطلات الرسمية في نظامنا. من فضلك اختر يوماً آخر للحجز."
     },
     en: {
         b1: "Future Smart Booking System", b2: "Elegant Design & Ease of Use", b3: "Integrated Professional Management",
@@ -264,7 +301,7 @@ const i18n = {
         nameErr: "⚠️ Full name is required", phoneErr: "⚠️ Please enter 11 digits", emailErr: "⚠️ Enter a valid email with @",
         fridayErr: "⚠️ Sorry, Friday is a holiday",
         processing: "Confirming booking data.. please wait",
-        dupTitle: "Existing Reservation", dupMsg: "Please note that our records show a previous booking registered with this number.",
+        dupTitle: "Existing Reservation", dupMsg: "Please note that our records show a previous booking registered with this number. Details:",
         adminBadge: "Admin Alert",
         successTitle: "Order Confirmed", successHero: "Thank you for your trust, here are your receipt details:",
         receiptId: "Receipt ID:", bookingDate: "Booking Date:", regTime: "Registration Time:", status: "Status:", approved: "Approved",
@@ -273,19 +310,15 @@ const i18n = {
         buySuccessTitle: "Congrats! Subscribed",
         buySuccessMsg: "Thank you for choosing Future System. Our customer service will contact you soon to activate the full version.",
         buyDupMsg: "Sorry, this number is already registered. Please contact support.",
-        contactSupport: "Contact Support"
+        contactSupport: "Contact Support",
+        friT: "Sorry, Friday is Holiday",
+        friM: "Friday is a weekend in our system. Please choose another date."
     }
 };
 
 function initSwiper() {
     if (swiper) swiper.destroy();
-    swiper = new Swiper('.swiper', { 
-        loop: true, 
-        autoplay: { delay: 4000 }, 
-        pagination: { el: '.swiper-pagination', clickable: true },
-        observer: true,
-        observeParents: true
-    });
+    swiper = new Swiper('.swiper', { loop: true, autoplay: { delay: 4000 }, pagination: { el: '.swiper-pagination', clickable: true }, observer: true, observeParents: true });
 }
 
 function toggleLanguage() {
@@ -295,6 +328,8 @@ function toggleLanguage() {
     document.getElementById('txt-b1').innerText = i18n[currentLang].b1;
     document.getElementById('txt-b2').innerText = i18n[currentLang].b2;
     document.getElementById('txt-b3').innerText = i18n[currentLang].b3;
+    document.getElementById('friT').innerText = i18n[currentLang].friT;
+    document.getElementById('friM').innerText = i18n[currentLang].friM;
     loadModeSelection();
     setTimeout(() => { initSwiper(); }, 100);
 }
@@ -302,21 +337,14 @@ function toggleLanguage() {
 function nextTheme() {
     currentThemeIndex = (currentThemeIndex + 1) % themes.length;
     const theme = themes[currentThemeIndex];
-    if (theme === 'gold') {
-        document.documentElement.removeAttribute('data-theme');
-    } else {
-        document.documentElement.setAttribute('data-theme', theme);
-    }
+    document.documentElement.setAttribute('data-theme', theme);
 }
 
 window.addEventListener('load', () => {
     setTimeout(() => {
         document.getElementById('splash').style.opacity = '0';
         document.getElementById('mainApp').style.opacity = '1';
-        setTimeout(() => { 
-            document.getElementById('splash').style.display = 'none'; 
-            initSwiper();
-        }, 1000);
+        setTimeout(() => { document.getElementById('splash').style.display = 'none'; initSwiper(); }, 1000);
         loadModeSelection();
     }, 2500);
 });
@@ -339,23 +367,17 @@ function startDemoSetup(){
             <input id="bizEmail" type="email" placeholder="${i18n[currentLang].bizEmail}" value="${CLIENT_EMAIL}" oninput="validateEmail(this)">
             <div id="emailErr" class="hint-error">${i18n[currentLang].emailErr}</div>
             <button class="btn btn-gold" onclick="saveDemo()">${i18n[currentLang].enter}</button>
-            <button class="btn" style="background:#f1f5f9; color:#64748b;" onclick="loadModeSelection()">${i18n[currentLang].back}</button>
+            <button class="btn" style="background:rgba(0,0,0,0.05); color:#64748b;" onclick="loadModeSelection()">${i18n[currentLang].back}</button>
         </div>
     </div>`;
 }
 
-function validateEmail(el) {
-    const err = document.getElementById('emailErr');
-    err.style.display = el.value.includes('@') ? 'none' : 'block';
-}
+function validateEmail(el) { const err = document.getElementById('emailErr'); err.style.display = el.value.includes('@') ? 'none' : 'block'; }
 
 function saveDemo(){
     CLIENT_NAME = document.getElementById('bizName').value;
     CLIENT_EMAIL = document.getElementById('bizEmail').value;
-    if(!CLIENT_NAME || !CLIENT_EMAIL || !CLIENT_EMAIL.includes('@')) { 
-        alert(currentLang === 'ar' ? "يرجى إكمال البيانات بدقة" : "Please fill details accurately"); 
-        return; 
-    }
+    if(!CLIENT_NAME || !CLIENT_EMAIL.includes('@')) { alert(currentLang === 'ar' ? "يرجى إكمال البيانات بدقة" : "Please fill details accurately"); return; }
     startBooking();
 }
 
@@ -365,48 +387,32 @@ function startBooking(){
     <div class="card">
         <h4 style="color:var(--primary-gold)"><i class="fa-solid fa-calendar-plus"></i> ${i18n[currentLang].formTitle}</h4>
         <div class="booking-form">
-            <input id="pName" type="text" placeholder="${i18n[currentLang].namePl}" oninput="validateName(this)">
-            <div id="nameErr" class="hint-error">${i18n[currentLang].nameErr}</div>
-            <input id="pPhone" type="tel" maxlength="11" placeholder="${i18n[currentLang].phonePl}" oninput="validatePhone(this)">
-            <div id="phoneErr" class="hint-error">${i18n[currentLang].phoneErr}</div>
-            <input type="date" id="pDate" min="${today}" onchange="validateDate(this)">
-            <div id="dateErr" class="hint-error">${i18n[currentLang].fridayErr}</div>
+            <input id="pName" type="text" placeholder="${i18n[currentLang].namePl}" oninput="handleName(this)">
+            <div id="pNameHint" class="live-hint">${i18n[currentLang].nameErr}</div>
+            
+            <input id="pPhone" type="tel" maxlength="11" placeholder="${i18n[currentLang].phonePl}" oninput="handlePhone(this)">
+            <div id="pPhoneHint" class="live-hint">${i18n[currentLang].phoneErr}</div>
+            
+            <input type="date" id="pDate" min="${today}" onchange="handleFri(this)">
             <button class="btn btn-gold" onclick="submitBooking()">${i18n[currentLang].confirm}</button>
-            <button class="btn" style="background:#e2e8f0; color:#64748b;" onclick="startDemoSetup()">${i18n[currentLang].back}</button>
+            <button class="btn" style="background:rgba(0,0,0,0.05); color:#64748b;" onclick="startDemoSetup()">${i18n[currentLang].back}</button>
         </div>
     </div>`;
 }
 
-function validateName(el) {
-    const err = (el.id === 'pName') ? document.getElementById('nameErr') : document.getElementById('buyNameErr');
-    const words = el.value.trim().split(/\s+/);
-    if(err) err.style.display = (words.length >= 3) ? 'none' : 'block';
-}
-
-function validatePhone(el) {
-    const err = (el.id === 'pPhone') ? document.getElementById('phoneErr') : document.getElementById('buyPhoneErr');
-    el.value = el.value.replace(/[^0-9]/g, ''); 
-    if(err) err.style.display = (el.value.length === 11) ? 'none' : 'block';
-}
-
-function validateDate(el) {
-    const err = document.getElementById('dateErr');
-    const day = new Date(el.value).getDay();
-    if(day === 5) { err.style.display = 'block'; el.value = ''; } 
-    else { err.style.display = 'none'; }
-}
+function handleName(el) { const words = el.value.trim().split(/\s+/); document.getElementById('pNameHint').style.display = (words.length < 3 && el.value.length > 0) ? 'block' : 'none'; }
+function handlePhone(el) { el.value = el.value.replace(/[^0-9]/g, ''); document.getElementById('pPhoneHint').style.display = (el.value.length < 11 && el.value.length > 0) ? 'block' : 'none'; }
+function handleFri(el) { const day = new Date(el.value).getUTCDay(); if(day === 5) { document.getElementById('fridayAlert').style.display = 'flex'; el.value = ""; } }
+function closeFri() { document.getElementById('fridayAlert').style.display = 'none'; }
 
 async function submitBooking(){
     let name = document.getElementById('pName').value.trim();
     let phone = document.getElementById('pPhone').value;
     let date = document.getElementById('pDate').value;
-    if(name.split(/\s+/).length < 3 || phone.length < 11 || !date) { return; }
-    contentArea.innerHTML = `<div class="card" style="text-align:center;"><i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem; color:var(--primary-gold)"></i><p>${i18n[currentLang].processing}</p></div>`;
+    if(name.split(/\s+/).length < 3 || phone.length < 11 || !date) { alert(currentLang === 'ar' ? "يرجى إكمال البيانات" : "Please complete data"); return; }
+    contentArea.innerHTML = `<div class="card digital-processing"><div class="spinner-ring"></div><p>${i18n[currentLang].processing}</p></div>`;
     try {
-        const response = await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify({ name, phone, bookingDate: date, source: CLIENT_NAME, clientEmail: CLIENT_EMAIL, mode: "demo" })
-        });
+        const response = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ name, phone, bookingDate: date, source: CLIENT_NAME, clientEmail: CLIENT_EMAIL, mode: "demo" }) });
         const data = await response.json();
         if(data.status == "duplicated") {
             contentArea.innerHTML = `
@@ -414,19 +420,22 @@ async function submitBooking(){
                 <div class="status-badge">${i18n[currentLang].adminBadge}</div>
                 <h3>${i18n[currentLang].dupTitle}</h3>
                 <p style="font-size:0.8rem; line-height:1.6;">${data.message}</p>
+                <div class="details-box">
+                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'الاسم:' : 'Name:'}</span><span class="detail-value">${name}</span></div>
+                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'التاريخ:' : 'Date:'}</span><span class="detail-value">${date}</span></div>
+                </div>
                 <button class="btn btn-gold" onclick="startBooking()">${i18n[currentLang].back}</button>
             </div>`;
         } else {
-            let now = new Date();
-            let timeStr = now.getHours() + ":" + now.getMinutes().toString().padStart(2, '0');
             contentArea.innerHTML = `
             <div class="card" style="text-align:center; border-top: 4px solid #22c55e;">
                 <i class="fa-solid fa-circle-check" style="font-size:2.2rem; color:#22c55e; margin-bottom:10px;"></i>
                 <h3>${i18n[currentLang].successTitle}</h3>
                 <div class="details-box">
                     <div class="detail-item"><span class="detail-label">${i18n[currentLang].receiptId}</span><span class="detail-value">#${data.id}</span></div>
+                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'الاسم:' : 'Name:'}</span><span class="detail-value">${name}</span></div>
+                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'الهاتف:' : 'Phone:'}</span><span class="detail-value">${phone}</span></div>
                     <div class="detail-item"><span class="detail-label">${i18n[currentLang].bookingDate}</span><span class="detail-value">${date}</span></div>
-                    <div class="detail-item"><span class="detail-label">${i18n[currentLang].regTime}</span><span class="detail-value">${timeStr}</span></div>
                 </div>
                 <button class="btn btn-gold" onclick="loadModeSelection()">${i18n[currentLang].home}</button>
             </div>`;
@@ -439,55 +448,32 @@ function startBuy(){
     <div class="card">
         <h3><i class="fa-solid fa-basket-shopping"></i> ${i18n[currentLang].buy}</h3>
         <div class="booking-form">
-            <input id="buyName" placeholder="${i18n[currentLang].nameBuy}" oninput="validateName(this)">
-            <div id="buyNameErr" class="hint-error" style="display:none">${i18n[currentLang].nameErr}</div>
-            <input id="buyPhone" placeholder="${i18n[currentLang].phoneBuy}" maxlength="11" oninput="validatePhone(this)">
-            <div id="buyPhoneErr" class="hint-error" style="display:none">${i18n[currentLang].phoneErr}</div>
+            <input id="buyName" placeholder="${i18n[currentLang].nameBuy}" oninput="hBN(this)">
+            <div id="hBNHint" class="live-hint">${i18n[currentLang].nameErr}</div>
+            <input id="buyPhone" placeholder="${i18n[currentLang].phoneBuy}" maxlength="11" oninput="hBP(this)">
+            <div id="hBPHint" class="live-hint">${i18n[currentLang].phoneErr}</div>
             <button class="btn btn-gold" onclick="submitBuy()">${i18n[currentLang].send}</button>
             <button class="btn" style="background:#f1f5f9; color:#64748b;" onclick="loadModeSelection()">${i18n[currentLang].back}</button>
         </div>
     </div>`;
 }
+function hBN(el) { const words = el.value.trim().split(/\s+/); document.getElementById('hBNHint').style.display = (words.length < 3 && el.value.length > 0) ? 'block' : 'none'; }
+function hBP(el) { el.value = el.value.replace(/[^0-9]/g, ''); document.getElementById('hBPHint').style.display = (el.value.length < 11 && el.value.length > 0) ? 'block' : 'none'; }
 
 async function submitBuy(){
     let name = document.getElementById('buyName').value.trim();
     let phone = document.getElementById('buyPhone').value;
-    if(name.split(/\s+/).length < 3 || phone.length < 11) { return; }
-    contentArea.innerHTML = `<div class="card" style="text-align:center;"><i class="fa-solid fa-spinner fa-spin" style="font-size:1.5rem; color:var(--primary-gold)"></i><p>${i18n[currentLang].processing}</p></div>`;
+    if(name.split(/\s+/).length < 3 || phone.length < 11) { alert(currentLang === 'ar' ? "يرجى إكمال البيانات" : "Please complete data"); return; }
+    contentArea.innerHTML = `<div class="card digital-processing"><div class="spinner-ring"></div><p>${i18n[currentLang].processing}</p></div>`;
     try {
-        const response = await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify({ mode: "buy", name, phone })
-        });
+        const response = await fetch(SCRIPT_URL, { method: "POST", body: JSON.stringify({ mode: "buy", name, phone }) });
         const data = await response.json();
         if(data.status === "success_buy") {
-            contentArea.innerHTML = `
-            <div class="card" style="text-align:center; border: 2px solid var(--primary-gold); background: linear-gradient(145deg, #ffffff, #fffcf5);">
-                <i class="fa-solid fa-crown" style="font-size:2.5rem; color:var(--primary-gold); margin-bottom:15px;"></i>
-                <h3 style="color:var(--primary-gold); font-weight:800; font-size:1.2rem;">${i18n[currentLang].buySuccessTitle}</h3>
-                <p style="font-size:0.85rem; color:var(--dark-deep); line-height:1.7; padding:0 10px;">${i18n[currentLang].buySuccessMsg}</p>
-                <div style="height:1px; background:var(--gradient-gold); margin:15px 0; opacity:0.3;"></div>
-                <button class="btn btn-gold" onclick="loadModeSelection()">${i18n[currentLang].home}</button>
-            </div>`;
-        } else if(data.status === "duplicated_buy") {
-            contentArea.innerHTML = `
-            <div class="card" style="text-align:center; border-top: 4px solid var(--error-red);">
-                <i class="fa-solid fa-circle-exclamation" style="font-size:2.2rem; color:var(--error-red); margin-bottom:10px;"></i>
-                <h3 style="color:var(--dark-deep);">${i18n[currentLang].adminBadge}</h3>
-                <p style="font-size:0.85rem; color:#64748b; line-height:1.6;">${i18n[currentLang].buyDupMsg}</p>
-                <a href="https://wa.me/201122750229" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> ${i18n[currentLang].contactSupport}</a>
-                <button class="btn" style="background:#f1f5f9; color:#64748b;" onclick="loadModeSelection()">${i18n[currentLang].back}</button>
-            </div>`;
+            contentArea.innerHTML = `<div class="card" style="text-align:center; border: 2px solid var(--primary-gold);"><i class="fa-solid fa-crown" style="font-size:2.5rem; color:var(--primary-gold); margin-bottom:15px;"></i><h3 style="color:var(--primary-gold)">${i18n[currentLang].buySuccessTitle}</h3><p>${i18n[currentLang].buySuccessMsg}</p><button class="btn btn-gold" onclick="loadModeSelection()">${i18n[currentLang].home}</button></div>`;
+        } else {
+            contentArea.innerHTML = `<div class="card" style="text-align:center;"><i class="fa-solid fa-circle-exclamation" style="font-size:2rem; color:var(--error-red);"></i><p>${i18n[currentLang].buyDupMsg}</p><a href="https://wa.me/201122750229" class="btn btn-whatsapp">${i18n[currentLang].contactSupport}</a></div>`;
         }
-    } catch (e) {
-        contentArea.innerHTML = `
-        <div class="card" style="text-align:center;">
-            <i class="fa-solid fa-wifi-slash" style="font-size:2rem; color:#64748b;"></i>
-            <p>${currentLang === 'ar' ? 'حدث خطأ في الاتصال' : 'Connection Error'}</p>
-            <a href="https://wa.me/201122750229" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> ${i18n[currentLang].contactSupport}</a>
-            <button class="btn" onclick="loadModeSelection()">${i18n[currentLang].home}</button>
-        </div>`;
-    }
+    } catch (e) { loadModeSelection(); }
 }
 </script>
 
