@@ -276,43 +276,122 @@ let swiper;
 
 const i18n = {
     ar: {
-        b1: "✨ نظام الحجز الذكي المستقبلي", b2: "🚀 إدارة احترافية متكاملة", b3: "💎 أناقة التصميم وسهولة الاستخدام",
-        choose: "اختر الخدمة", demo: "تجربة النسخة التجريبية", buy: "شراء النسخة الكاملة",
-        setup: "إعداد التجربة", bizName: "اسم النشاط التجاري", bizEmail: "بريدك الإلكتروني",
-        enter: "دخول النظام", back: "رجوع للرئيسية", formTitle: "نموذج الحجز",
-        namePl: "الاسم ثلاثي", phonePl: "رقم الهاتف", confirm: "تأكيد الحجز",
-        nameErr: "⚠️ يجب كتابة الاسم ثلاثي", phoneErr: "⚠️ من فضلك أدخل 11 رقم",
+        b1: "✨ نظام الحجز الذكي المستقبلي",
+        b2: "🚀 إدارة احترافية متكاملة",
+        b3: "💎 أناقة التصميم وسهولة الاستخدام",
+
+        choose: "اختر الخدمة",
+        demo: "تجربة النسخة التجريبية",
+        buy: "شراء النسخة الكاملة",
+
+        setup: "إعداد التجربة",
+        bizName: "اسم النشاط التجاري",
+        bizEmail: "بريدك الإلكتروني",
+
+        enter: "دخول النظام",
+        back: "رجوع للرئيسية",
+
+        formTitle: "نموذج الحجز",
+
+        namePl: "الاسم ثلاثي",
+        phonePl: "رقم الهاتف",
+
+        confirm: "تأكيد الحجز",
+
+        nameErr: "⚠️ يجب كتابة الاسم ثلاثي",
+        phoneErr: "⚠️ من فضلك أدخل 11 رقم",
         emailErr: "⚠️ يرجى إدخال إيميل صحيح يحتوي على @",
+
         errData: "يرجى إكمال البيانات بدقة",
+
         processing: "جاري تأكيد بيانات الحجز.. يرجى الانتظار",
-        dupTitle: "حجز قائم بالفعل", adminBadge: "تنبيه إداري",
-        successTitle: "تم تأكيد الطلب", receiptId: "رقم الإيصال:", bookingDate: "تاريخ الحجز:",
-        home: "العودة للرئيسية", nameBuy: "الاسم الثلاثي", phoneBuy: "رقم الهاتف (11 رقم)", send: "إرسال الطلب",
+
+        dupTitle: "حجز قائم بالفعل",
+        adminBadge: "تنبيه إداري",
+
+        successTitle: " .. تم تأكيد الطلب",
+        successMsg: "📩 تم إرسال رسالة تأكيد إلى بريدك الإلكتروني. من فضلك افتح الإيميل وشاهد تفاصيل الحجز، ثم جرّب الحجز مرة أخرى بنفس الرقم لتكتشف نظام منع التكرار الذكي ✨",
+
+        receiptId: "رقم الإيصال:",
+        bookingDate: "تاريخ الحجز:",
+
+        home: "العودة للرئيسية",
+
+        nameBuy: "الاسم الثلاثي",
+        phoneBuy: "رقم الهاتف (11 رقم)",
+
+        send: "إرسال الطلب",
+
         buySuccessTitle: "تهانينا! تم اشتراكك",
+
         buySuccessMsg: "شكراً لاختيارك Future System. لقد استلمنا طلبك وستقوم خدمة العملاء بالتواصل معك في أقرب وقت ممكن لتفعيل النسخة الكاملة.",
+
         buyDupMsg: "عذراً، هذا الرقم مسجل لدينا بالفعل في طلبات الشراء. من فضلك تواصل مع خدمة العملاء للمتابعة.",
+
         contactSupport: "تواصل مع خدمة العملاء",
+
         friT: "تنبيه المواعيد",
+
         friM: "عذراً، هذه الأيام من العطلات الرسمية. من فضلك اختر يوماً آخر للحجز."
     },
+
     en: {
-        b1: "✨ Future Smart Booking System", b2: "🚀 Integrated Professional Management", b3: "💎 Elegant Design & Ease of Use",
-        choose: "Choose Service", demo: "Try Demo Version", buy: "Buy Full Version",
-        setup: "Setup Experience", bizName: "Business Name", bizEmail: "Your Email",
-        enter: "Enter System", back: "Back to Home", formTitle: "Booking Form",
-        namePl: "Full Name", phonePl: "Phone Number", confirm: "Confirm Booking",
-        nameErr: "⚠️ Full name is required", phoneErr: "⚠️ Please enter 11 digits",
+        b1: "✨ Future Smart Booking System",
+        b2: "🚀 Integrated Professional Management",
+        b3: "💎 Elegant Design & Ease of Use",
+
+        choose: "Choose Service",
+        demo: "Try Demo Version",
+        buy: "Buy Full Version",
+
+        setup: "Setup Experience",
+        bizName: "Business Name",
+        bizEmail: "Your Email",
+
+        enter: "Enter System",
+        back: "Back to Home",
+
+        formTitle: "Booking Form",
+
+        namePl: "Full Name",
+        phonePl: "Phone Number",
+
+        confirm: "Confirm Booking",
+
+        nameErr: "⚠️ Full name is required",
+        phoneErr: "⚠️ Please enter 11 digits",
         emailErr: "⚠️ Enter a valid email with @",
+
         errData: "Please fill details accurately",
+
         processing: "Confirming booking data.. please wait",
-        dupTitle: "Existing Reservation", adminBadge: "Admin Alert",
-        successTitle: "Order Confirmed", receiptId: "Receipt ID:", bookingDate: "Booking Date:",
-        home: "Back to Home", nameBuy: "Full Name", phoneBuy: "Phone (11 digits)", send: "Send Request",
+
+        dupTitle: "Existing Reservation",
+        adminBadge: "Admin Alert",
+
+        successTitle: "Order Confirmed",
+        successMsg: "📩 A confirmation email has been sent to your inbox. Please check your email for booking details, then try booking again with the same number to test the smart duplicate prevention system ✨",
+
+        receiptId: "Receipt ID:",
+        bookingDate: "Booking Date:",
+
+        home: "Back to Home",
+
+        nameBuy: "Full Name",
+        phoneBuy: "Phone (11 digits)",
+
+        send: "Send Request",
+
         buySuccessTitle: "Congrats! Subscribed",
+
         buySuccessMsg: "Thank you for choosing Future System. Our customer service will contact you soon to activate the full version.",
+
         buyDupMsg: "Sorry, this number is already registered. Please contact support.",
+
         contactSupport: "Contact Support",
+
         friT: "Appointment Alert",
+
         friM: "Sorry, these days are official holidays. Please choose another date."
     }
 };
