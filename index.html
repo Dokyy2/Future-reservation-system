@@ -309,7 +309,7 @@ const i18n = {
         dupTitle: "حجز قائم بالفعل",
         adminBadge: "تنبيه إداري",
 
-        successTitle: " .. تم تأكيد الطلب",
+        successTitle: " تم تأكيد الطلب",
         successMsg: "📩 تم إرسال رسالة تأكيد إلى بريدك الإلكتروني. من فضلك افتح الإيميل وشاهد تفاصيل الحجز، ثم جرّب الحجز مرة أخرى بنفس الرقم لتكتشف نظام منع التكرار الذكي ✨",
 
         receiptId: "رقم الإيصال:",
@@ -460,9 +460,21 @@ function loadModeSelection(){
     contentArea.innerHTML = `
         <div class="banner-sub">${i18n[currentLang].b1}<br>${i18n[currentLang].b2}</div>
         <div class="card" style="text-align:center;">
-            <h3 style="color:var(--dark-pink);"><i class="fa-solid fa-star" style="color:var(--primary-color)"></i> ${i18n[currentLang].choose}</h3>
-            <button class="btn btn-gold" onclick="startDemoSetup()"><i class="fa-solid fa-vial"></i> ${i18n[currentLang].demo}</button>
-            <button class="btn" onclick="startBuy()"><i class="fa-solid fa-crown"></i> ${i18n[currentLang].buy}</button>
+            <h3 style="color:var(--dark-pink); margin-bottom:6px;">
+                <i class="fa-solid fa-star" style="color:var(--primary-color)"></i>
+                ${i18n[currentLang].choose}
+            </h3>
+            <p style="font-size:0.82rem; color:#64748b; line-height:1.7; margin:0 0 12px;">
+                ${i18n[currentLang].chooseHint}
+            </p>
+            <button class="btn btn-gold" onclick="startDemoSetup()">
+                <i class="fa-solid fa-vial"></i>
+                ${i18n[currentLang].demo}
+            </button>
+            <button class="btn" onclick="startBuy()">
+                <i class="fa-solid fa-crown"></i>
+                ${i18n[currentLang].buy}
+            </button>
         </div>`;
 }
 
@@ -470,16 +482,26 @@ function startDemoSetup(){
     contentArea.innerHTML = `
     <div class="msg">
         <div class="booking-form">
-            <div class="form-title"><i class="fa-solid fa-gear"></i><span>${i18n[currentLang].setup}</span></div>
+            <div class="form-title">
+                <i class="fa-solid fa-gear"></i>
+                <span>${i18n[currentLang].setup}</span>
+            </div>
+            <p style="font-size:0.82rem; color:#64748b; line-height:1.7; margin:0 0 10px; text-align:center;">
+                ${i18n[currentLang].setupHint}
+            </p>
             <input id="bizName" type="text" placeholder="${i18n[currentLang].bizName}" value="${CLIENT_NAME}">
             <input id="bizEmail" type="email" placeholder="${i18n[currentLang].bizEmail}" value="${CLIENT_EMAIL}" oninput="validateEmail(this)">
             <div id="emailErr" class="hint-error">${i18n[currentLang].emailErr}</div>
-            <button class="btn btn-gold" onclick="saveDemo()"><i class="fa-solid fa-right-to-bracket"></i> ${i18n[currentLang].enter}</button>
+            <button class="btn btn-gold" onclick="saveDemo()">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                ${i18n[currentLang].enter}
+            </button>
             ${signatureHtml}
             ${backButton()}
         </div>
     </div>`;
 }
+
 
 function validateEmail(el) {
     const err = document.getElementById('emailErr');
