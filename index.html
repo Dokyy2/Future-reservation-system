@@ -591,25 +591,61 @@ async function submitBooking(){
             const waMsg = `*Future Reservation System*\n📌 رقم الإيصال: #${data.id}\n👤 الاسم: ${name}\n📱 الهاتف: ${phone}\n📅 التاريخ: ${date}\n🏢 النشاط: ${CLIENT_NAME}`;
             const waUrl = `https://wa.me/201122750229?text=${encodeURIComponent(waMsg)}`;
 
-            contentArea.innerHTML = `
-            <div class="msg" style="text-align:center; border:2px solid var(--primary-color); background:var(--silk-bg);">
-                <div style="font-size:2rem; color:#c5a059;"><i class="fa-solid fa-crown"></i></div>
-                <h3 style="color:var(--dark-pink);">${i18n[currentLang].successTitle}</h3>
-                <div class="details-box">
-                    <div class="detail-item"><span class="detail-label">${i18n[currentLang].receiptId}</span><span class="detail-value">#${data.id}</span></div>
-                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'الاسم:' : 'Name:'}</span><span class="detail-value">${name}</span></div>
-                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'الهاتف:' : 'Phone:'}</span><span class="detail-value">${phone}</span></div>
-                    <div class="detail-item"><span class="detail-label">${i18n[currentLang].bookingDate}</span><span class="detail-value">${date}</span></div>
-                </div>
-                <a href="${waUrl}" target="_blank" class="premium-wa-link"><i class="fa-brands fa-whatsapp"></i> تأكيد عبر واتساب</a>
-                ${backButton()}
-            </div>`;
-        }
-    } catch (e) {
-        startBooking();
-    }
-}
+           contentArea.innerHTML = `
+<div class="msg" style="text-align:center; border:2px solid var(--primary-color); background:var(--silk-bg);">
+    
+    <div style="font-size:2rem; color:#c5a059;">
+        <i class="fa-solid fa-crown"></i>
+    </div>
 
+    <h3 style="color:var(--dark-pink);">
+        ${i18n[currentLang].successTitle}
+    </h3>
+
+    <div style="
+        background: rgba(197,160,89,0.08);
+        border: 1px dashed var(--primary-color);
+        padding: 12px;
+        border-radius: 16px;
+        margin: 12px 0;
+        line-height: 1.9;
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--dark-pink);
+    ">
+        ${i18n[currentLang].successMsg}
+    </div>
+
+    <div class="details-box">
+        <div class="detail-item">
+            <span class="detail-label">${i18n[currentLang].receiptId}</span>
+            <span class="detail-value">#${data.id}</span>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">${currentLang === 'ar' ? 'الاسم:' : 'Name:'}</span>
+            <span class="detail-value">${name}</span>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">${currentLang === 'ar' ? 'الهاتف:' : 'Phone:'}</span>
+            <span class="detail-value">${phone}</span>
+        </div>
+
+        <div class="detail-item">
+            <span class="detail-label">${i18n[currentLang].bookingDate}</span>
+            <span class="detail-value">${date}</span>
+        </div>
+    </div>
+
+    <a href="${waUrl}" target="_blank" class="premium-wa-link">
+        <i class="fa-brands fa-whatsapp"></i>
+        تأكيد عبر واتساب
+    </a>
+
+    ${backButton()}
+
+</div>`;
 function startBuy(){
     contentArea.innerHTML = `
     <div class="msg">
