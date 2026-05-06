@@ -3,482 +3,1146 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>Future Reservation System - Ultra Premium UI</title>
+<title>Future Reservation System - Smart Booking</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
 <style>
-:root { 
-    --primary-color: #c5a059; 
-    --medical-blue: rgb(0, 160, 196); 
-    --silk-bg: #ffffff;
-    --silk-border: linear-gradient(135deg, #fff7df 0%, #fff 50%, #fff1c7 100%);
-    --dark-pink: #8a6b25;
-    --success-green: #22c55e;
-    --error-red: #ef4444;
-    --app-radius: 40px;
-    --card-radius: 28px;
-    --transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+:root {
+    --gold: #f4c76a;
+    --blue: #21b7ff;
+    --deep: #071426;
+    --deep-2: #0b1c34;
+    --white: #ffffff;
+    --muted: #aeb8c5;
+    --danger: #ef4444;
+    --green: #25d366;
+    --radius-xl: 34px;
+    --radius-lg: 24px;
+    --shadow: 0 24px 70px rgba(0,0,0,0.18);
+    --soft-shadow: 0 18px 55px rgba(7,20,38,0.12);
 }
 
-[data-mode="dark"] {
-    --silk-bg: #121212;
-    --dark-pink: #ecd08d;
-    --silk-border: linear-gradient(135deg, #3b2f16 0%, #121212 50%, #3b2f16 100%);
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
 }
-[data-mode="dark"] .msg, [data-mode="dark"] .card, [data-mode="dark"] .booking-form { background: #1e1e1e !important; color: white !important; }
-[data-mode="dark"] input, [data-mode="dark"] select { background: #2d2d2d !important; color: white !important; border-color: #444 !important; }
-[data-mode="dark"] .social-nav { background: #1e1e1e !important; border-color: #333 !important; }
-[data-mode="dark"] .social-item { background: #2d2d2d !important; border-color: #444 !important; color: white !important; }
 
-[data-theme="purple"] { --primary-color: #8b5cf6; --dark-pink: #5b21b6; --silk-border: linear-gradient(135deg, #ede9fe 0%, #fff 50%, #ede9fe 100%); }
-[data-theme="sky"] { --primary-color: #0ea5e9; --dark-pink: #0369a1; --silk-border: linear-gradient(135deg, #e0f2fe 0%, #fff 50%, #e0f2fe 100%); }
-[data-theme="red"] { --primary-color: #e11d48; --dark-pink: #9f1239; --silk-border: linear-gradient(135deg, #ffe4e6 0%, #fff 50%, #ffe4e6 100%); }
-[data-theme="mint"] { --primary-color: #10b981; --dark-pink: #065f46; --silk-border: linear-gradient(135deg, #d1fae5 0%, #fff 50%, #d1fae5 100%); }
-
-* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    background: #f6f8fb;
+    color: #111827;
+    scroll-behavior: smooth;
+}
 
 body {
-    margin: 0; font-family: 'Cairo', sans-serif;
-    height: 100dvh; display: flex; justify-content: center; align-items: center;
-    background-image: radial-gradient(at 0% 0%, #fff3c4 0, transparent 50%), radial-gradient(at 100% 100%, #f8fafc 0, transparent 50%);
-    overflow: hidden; direction: rtl; transition: var(--transition);
-}
-
-.controls-top {
-    position: absolute; top: 15px; left: 15px; right: 15px;
-    display: flex; justify-content: space-between; z-index: 1000;
-}
-.control-group { display: flex; gap: 8px; }
-.lang-btn, .theme-btn, .mode-btn {
-    background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 20px;
-    padding: 6px 14px; color: var(--dark-pink); font-size: 0.8rem; font-weight: 800;
-    cursor: pointer; display: flex; align-items: center; gap: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    overflow-x: hidden;
 }
 
 #splash {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #000 url("https://i.ibb.co/1GbPSfyw/Bannar-2-LOGO.png") center center / cover no-repeat;
-    z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;
-    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-#splash.hide { opacity: 0; transform: scale(0.8); pointer-events: none; }
-.splash-signature { position: absolute; bottom: 35px; text-align: center; width: 100%; font-size: 0.85rem; font-weight: 700; color: #fff; opacity: 0.8; }
-
-.app {
-    width: 98%; max-width: 450px; height: 98%; 
-    display: flex; flex-direction: column; background: var(--silk-bg); border-radius: var(--app-radius);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.1); position: relative; overflow: hidden;
-    border: 1.5px solid transparent; background-image: linear-gradient(var(--silk-bg), var(--silk-bg)), var(--silk-border);
-    background-origin: border-box; background-clip: content-box, border-box;
-    opacity: 0; transition: opacity 1s ease;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background:
+        linear-gradient(rgba(3,9,20,0.25), rgba(3,9,20,0.38)),
+        url("https://i.ibb.co/mF9cH0bm/01-Background.png") center / cover no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.9s ease, transform 0.9s ease;
 }
 
-.header-slider { width: 100%; aspect-ratio: 2 / 1; overflow: hidden; }
-.swiper-slide img { width: 100%; height: 100%; object-fit: cover; }
-.banner-overlay {
-    position: absolute; bottom: 15px; right: 15px; left: 15px;
-    background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(5px);
-    padding: 8px 15px; border-radius: 12px; border: 1px solid var(--primary-color);
-    color: var(--dark-pink); font-size: 0.85rem; font-weight: 800; text-align: center;
+#splash.hide {
+    opacity: 0;
+    transform: scale(1.04);
+    pointer-events: none;
 }
 
-.banner-sub {
-    padding: 12px 15px; border-radius: 15px; color: var(--dark-pink);
-    font-weight: 700; text-align: center; background: white;
-    border: 1.5px solid var(--primary-color);
-    box-shadow: 0 0 15px rgba(197, 160, 89, 0.15);
-    animation: softGlow 3s infinite alternate;
-}
-@keyframes softGlow { from { box-shadow: 0 0 5px var(--primary-color); } to { box-shadow: 0 0 15px var(--primary-color); } }
-
-.main-content { flex: 1; overflow-y: auto; padding: 15px; scrollbar-width: none; display: flex; flex-direction: column; gap: 15px; position: relative; animation: fadeIn 0.4s ease; }
-.main-content::-webkit-scrollbar { display: none; }
-
-.card {
-    padding: 20px; border-radius: var(--card-radius); border: 1.5px solid transparent;
-    background: linear-gradient(var(--silk-bg), var(--silk-bg)) padding-box, var(--silk-border) border-box;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.03);
+.splash-logo {
+    width: min(320px, 72vw);
+    filter: drop-shadow(0 0 38px rgba(33,183,255,0.35));
+    animation: splashFloat 2.4s ease-in-out infinite;
 }
 
-.btn, .option-btn {
-    width: 100%; padding: 14px; border-radius: 18px; border: none;
-    font-weight: 700; color: white; background: linear-gradient(135deg, var(--medical-blue), #008eb0);
-    transition: all 0.3s ease; cursor: pointer; font-family: 'Cairo';
-    margin: 6px 0; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center;
-}
-[data-theme] .btn, [data-theme] .option-btn { background: linear-gradient(135deg, var(--primary-color), var(--dark-pink)); }
-.btn-gold { background: linear-gradient(135deg, var(--primary-color), var(--dark-pink)) !important; }
-.btn-whatsapp { background: #25d366 !important; color: white !important; }
-
-.inline-back-btn {
-    width: 100%; padding: 13px; border-radius: 18px;
-    border: 1.5px solid var(--primary-color);
-    background: linear-gradient(135deg, rgba(255,255,255,0.96), #fff8e6);
-    color: var(--dark-pink); font-family: 'Cairo'; font-weight: 900;
-    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
-    box-shadow: 0 0 18px rgba(197, 160, 89, 0.22);
-    animation: backGlow 2.4s infinite alternate;
-    margin: 12px 0 4px 0;
-}
-.inline-back-btn i { color: var(--primary-color); }
-@keyframes backGlow {
-    from { box-shadow: 0 0 8px rgba(197, 160, 89, 0.18); transform: scale(1); }
-    to { box-shadow: 0 0 22px rgba(197, 160, 89, 0.38); transform: scale(1.01); }
+.splash-progress {
+    width: min(520px, 74vw);
+    height: 12px;
+    border-radius: 30px;
+    border: 1px solid rgba(244,199,106,0.7);
+    margin-top: 36px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.06);
 }
 
-.assistant-msg { font-weight: 800; border-right: 4px solid var(--medical-blue); padding-right: 10px; animation: robotType 0.5s ease-in-out; }
-@keyframes robotType { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
-
-.msg {
-    width: 100%; padding: 18px; border-radius: var(--card-radius);
-    background: white; border: 1.5px solid var(--primary-color);
-    text-align: center; color: #334155; font-size: 0.92rem; line-height: 1.6;
+.splash-progress span {
+    display: block;
+    width: 0;
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--gold), #fff0a8);
+    animation: loadBar 2.4s ease forwards;
 }
+
+.splash-live-text {
+    color: #fff;
+    margin-top: 18px;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+
+@keyframes loadBar { to { width: 92%; } }
+@keyframes splashFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.site {
+    min-height: 100dvh;
+    background: #f6f8fb;
+}
+
+.hero {
+    min-height: 100dvh;
+    position: relative;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(3,9,20,0.78), rgba(3,9,20,0.50), rgba(3,9,20,0.78)),
+        url("https://i.ibb.co/mF9cH0bm/01-Background.png") center / cover no-repeat;
+    color: white;
+    padding: 28px 20px 100px;
+}
+
+.topbar {
+    width: min(1180px, calc(100% - 20px));
+    min-height: 82px;
+    margin: 0 auto;
+    border-radius: 26px;
+    padding: 12px 20px;
+    background: rgba(4, 14, 30, 0.62);
+    border: 1px solid rgba(244,199,106,0.35);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25), inset 0 0 30px rgba(33,183,255,0.08);
+    backdrop-filter: blur(18px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand img {
+    width: 54px;
+    height: 54px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 18px rgba(244,199,106,0.28));
+}
+
+.brand-text strong {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #fff;
+}
+
+.brand-text span {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--muted);
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+}
+
+.nav a,
+.lang-pill {
+    color: #eaf3ff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 0.9rem;
+    border: none;
+    background: transparent;
+    font-family: 'Cairo';
+    cursor: pointer;
+}
+
+.lang-pill {
+    background: rgba(255,255,255,0.09);
+    border: 1px solid rgba(255,255,255,0.16);
+    border-radius: 999px;
+    padding: 10px 16px;
+}
+
+.hero-content {
+    min-height: calc(100dvh - 130px);
+    display: grid;
+    place-items: center;
+    text-align: center;
+    width: min(1000px, calc(100% - 24px));
+    margin: 0 auto;
+}
+
+.hero-logo {
+    width: 96px;
+    height: 96px;
+    margin: 0 auto 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 28px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(244,199,106,0.3);
+    box-shadow: 0 0 45px rgba(33,183,255,0.22);
+    backdrop-filter: blur(12px);
+}
+
+.hero-logo img {
+    width: 74px;
+    height: 74px;
+    object-fit: contain;
+}
+
+.hero h1 {
+    margin: 0;
+    font-size: clamp(3.4rem, 8vw, 7.8rem);
+    line-height: 1.05;
+    font-weight: 900;
+    letter-spacing: 0;
+    text-shadow: 0 18px 45px rgba(0,0,0,0.35);
+}
+
+.hero p {
+    width: min(780px, 100%);
+    margin: 26px auto 46px;
+    color: #dce8f4;
+    font-size: clamp(1.05rem, 2vw, 1.45rem);
+    line-height: 1.9;
+    font-weight: 700;
+}
+
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    min-width: 180px;
+    height: 64px;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 0 28px;
+    font-family: 'Cairo';
+    font-weight: 900;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.hero-btn.primary {
+    background: linear-gradient(135deg, var(--blue), var(--gold));
+    color: #06101e;
+    box-shadow: 0 14px 35px rgba(33,183,255,0.24);
+}
+
+.hero-btn.secondary {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    backdrop-filter: blur(10px);
+}
+
+.hero-btn:active {
+    transform: scale(0.97);
+}
+
+.whatsapp-float {
+    position: fixed;
+    right: 28px;
+    bottom: 28px;
+    width: 64px;
+    height: 64px;
+    z-index: 50;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    display: grid;
+    place-items: center;
+    font-size: 2rem;
+    text-decoration: none;
+    box-shadow: 0 16px 45px rgba(37,211,102,0.42);
+    animation: waPulse 2s infinite;
+}
+
+@keyframes waPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+.stats-band {
+    background: var(--deep);
+    color: white;
+    padding: 86px 20px;
+}
+
+.stats-grid {
+    width: min(1000px, calc(100% - 24px));
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: clamp(42px, 8vw, 110px);
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.stat b {
+    display: block;
+    font-size: clamp(2.4rem, 5vw, 4.4rem);
+    font-weight: 900;
+}
+
+.stat span {
+    color: #c9d6e2;
+    font-weight: 800;
+}
+
+.section {
+    padding: 86px 20px;
+}
+
+.inner {
+    width: min(1200px, calc(100% - 24px));
+    margin: 0 auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: clamp(2.4rem, 5vw, 4.8rem);
+    line-height: 1.15;
+    color: var(--deep);
+    margin: 0 0 42px;
+    font-weight: 900;
+}
+
+.features-shell {
+    background: white;
+    border-radius: 38px;
+    padding: clamp(26px, 5vw, 64px);
+    box-shadow: var(--soft-shadow);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.feature-card {
+    min-height: 190px;
+    border-radius: 26px;
+    padding: 28px;
+    background: #fff;
+    border: 1px solid #e6ebf2;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.04);
+}
+
+.feature-card.dark {
+    background: var(--deep-2);
+    color: white;
+    border-color: transparent;
+}
+
+.feature-card i {
+    font-size: 2rem;
+    margin-bottom: 22px;
+    color: var(--blue);
+}
+
+.feature-card.dark i {
+    color: var(--gold);
+}
+
+.feature-card h3 {
+    margin: 0 0 12px;
+    font-size: 1.35rem;
+    font-weight: 900;
+}
+
+.feature-card p {
+    margin: 0;
+    color: #536172;
+    line-height: 1.8;
+    font-weight: 700;
+}
+
+.feature-card.dark p {
+    color: #d1dbea;
+}
+
+.booking-section {
+    padding: 90px 20px;
+    background:
+        radial-gradient(circle at 12% 20%, rgba(33,183,255,0.12), transparent 30%),
+        radial-gradient(circle at 90% 80%, rgba(244,199,106,0.16), transparent 34%),
+        #edf3fa;
+}
+
+.booking-stage {
+    width: min(980px, calc(100% - 20px));
+    margin: 0 auto;
+    border-radius: 38px;
+    padding: clamp(24px, 5vw, 62px);
+    background: rgba(255,255,255,0.78);
+    border: 1px solid rgba(255,255,255,0.8);
+    box-shadow: 0 30px 80px rgba(7,20,38,0.15);
+    backdrop-filter: blur(18px);
+}
+
+.booking-stage h2 {
+    text-align: center;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    color: var(--deep);
+    margin: 0 0 12px;
+    font-weight: 900;
+}
+
+.booking-stage .subtitle {
+    text-align: center;
+    color: #586579;
+    font-weight: 800;
+    margin: 0 0 34px;
+}
+
+.window-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+.window-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #d8dde6;
+}
+
+.window-dots span.active {
+    width: 28px;
+    border-radius: 12px;
+    background: var(--blue);
+}
+
 .booking-form {
-    width: 100%; background: #fffbff; border-radius: var(--card-radius);
-    border: 2.5px solid var(--primary-color); padding: 18px;
-}
-.booking-form input {
-    width: 100%; margin: 8px 0; padding: 12px; border-radius: 12px;
-    border: 1px solid #eee; text-align: center; font-family: 'Cairo'; font-size: 0.9rem;
+    display: grid;
+    gap: 18px;
 }
 
-.form-title {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    color: var(--medical-blue); font-weight: 900; font-size: 1rem;
-    padding: 8px 10px; margin-bottom: 8px;
-    border-radius: 16px; background: rgba(0, 160, 196, 0.08);
-    border: 1px solid rgba(0, 160, 196, 0.18);
+.field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
 }
-.form-title i { color: var(--primary-color); font-size: 1.15rem; }
 
-.form-signature {
-    margin-top: 8px; padding-top: 8px;
-    border-top: 1px dashed rgba(197, 160, 89, 0.45);
-    color: var(--dark-pink); font-size: 0.72rem; font-weight: 800;
-    text-align: center; opacity: 0.82;
+.field label {
+    display: block;
+    font-weight: 900;
+    color: var(--deep);
+    margin-bottom: 8px;
+}
+
+.field input,
+.field select,
+.field textarea {
+    width: 100%;
+    border: 1px solid #d6dce7;
+    background: rgba(255,255,255,0.86);
+    border-radius: 18px;
+    padding: 15px 18px;
+    font-family: 'Cairo';
+    font-size: 0.95rem;
+    color: var(--deep);
+}
+
+.field textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+.error-hint {
+    display: none;
+    color: var(--danger);
+    font-size: 0.8rem;
+    font-weight: 800;
+    margin-top: 6px;
+}
+
+.booking-info {
+    border-radius: 22px;
+    padding: 18px;
+    background: linear-gradient(135deg, rgba(7,20,38,0.92), rgba(11,28,52,0.94));
+    color: white;
+    display: grid;
+    gap: 10px;
+    margin: 6px 0 10px;
+}
+
+.booking-info-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    font-weight: 800;
+}
+
+.booking-info-item span:last-child {
+    color: var(--gold);
+}
+
+.cta-submit {
+    min-height: 62px;
+    border-radius: 999px;
+    border: none;
+    font-family: 'Cairo';
+    font-weight: 900;
+    font-size: 1rem;
+    background: linear-gradient(135deg, var(--blue), var(--gold));
+    color: #06101e;
+    cursor: pointer;
+    box-shadow: 0 16px 40px rgba(33,183,255,0.22);
+    animation: clickMe 1.4s infinite alternate;
+}
+
+@keyframes clickMe {
+    from { transform: scale(1); box-shadow: 0 16px 40px rgba(33,183,255,0.22); }
+    to { transform: scale(1.018); box-shadow: 0 20px 54px rgba(244,199,106,0.32); }
+}
+
+.secondary-btn {
+    min-height: 56px;
+    border-radius: 999px;
+    border: 2px solid var(--deep);
+    background: transparent;
+    color: var(--deep);
+    font-family: 'Cairo';
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.result-card {
+    border-radius: 28px;
+    padding: 28px;
+    text-align: center;
+    background: white;
+    box-shadow: var(--soft-shadow);
+    animation: pop 0.55s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+@keyframes pop {
+    0% { transform: scale(0.94); opacity: 0; }
+    70% { transform: scale(1.02); opacity: 1; }
+    100% { transform: scale(1); }
 }
 
 .details-box {
-    text-align: right; font-size: 0.9rem; line-height: 2;
-    border: 1px dashed var(--primary-color); padding: 12px;
-    border-radius: 15px; margin: 10px 0; background: rgba(197,160,89,0.05);
-}
-.detail-item { display: flex; justify-content: space-between; gap: 10px; }
-.detail-label { color: #64748b; }
-.detail-value { color: var(--dark-pink); font-weight: 800; }
-
-.status-badge {
-    display: inline-block; padding: 4px 12px; border-radius: 20px;
-    background: rgba(197, 160, 89, 0.12); color: var(--dark-pink);
-    font-size: 0.7rem; font-weight: 800; margin-bottom: 8px;
+    margin: 18px 0;
+    border-radius: 22px;
+    padding: 18px;
+    background: #f4f7fb;
+    border: 1px dashed #cfd8e6;
+    text-align: right;
 }
 
-.friday-modal {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
-    display: none; justify-content: center; align-items: center; z-index: 3000;
-}
-.fri-card {
-    background: white; padding: 25px; border-radius: 25px;
-    width: 85%; max-width: 320px; text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    border-top: 5px solid var(--medical-blue);
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 6px 0;
+    font-weight: 800;
 }
 
-.social-nav { display: flex; justify-content: space-around; align-items: center; padding: 10px 15px 25px 15px; background: #ffffff; border-top: 1px solid #f1f5f9; flex-shrink: 0; }
-.social-item { transition: 0.3s; text-decoration: none; display: flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 12px; background: #f8fafc; border: 1px solid #f1f5f9; color: var(--dark-pink); font-size: 1.2rem; }
-.wa-special { width: 55px !important; height: 55px !important; background: #25d366 !important; color: white !important; border-radius: 50% !important; border: none !important; font-size: 1.8rem !important; transform: translateY(-15px); animation: wa-glow 2s infinite; }
-@keyframes wa-glow { 0%, 100% { transform: translateY(-15px) scale(1); } 50% { transform: translateY(-15px) scale(1.1); box-shadow: 0 0 20px rgba(37, 211, 102, 0.5); } }
-
-.brand-footer {
-    text-align: center; padding: 4px 0 10px 0; background: var(--silk-bg);
-    font-size: 0.75rem; font-weight: 800; color: var(--dark-pink);
-    flex-shrink: 0;
+.detail-item span:last-child {
+    color: var(--deep);
 }
 
-.en-mode { direction: ltr !important; }
-.en-mode .details-box { text-align: left !important; }
-.error-hint, .live-hint, .hint-error { color: #e11d48; font-size: 0.75rem; font-weight: 700; display: none; margin-top: -5px; margin-bottom: 5px; }
-.premium-wa-link { display: block; text-decoration: none; padding: 15px; border-radius: 15px; text-align: center; font-weight: 800; background: #25d366; color: white; animation: flash 1s infinite; margin: 10px 0; }
-@keyframes flash { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03); } }
-.typing { display: flex; gap: 4px; justify-content: center; padding: 10px; }
-.dot { width: 6px; height: 6px; background: var(--medical-blue); border-radius: 50%; animation: blink 1.4s infinite; }
-@keyframes blink { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+.work-section {
+    padding: 90px 20px;
+    background: #fff;
+}
+
+.work-card {
+    min-height: 430px;
+    border-radius: 34px;
+    overflow: hidden;
+    background:
+        linear-gradient(90deg, rgba(7,20,38,0.82), rgba(7,20,38,0.35)),
+        url("https://i.ibb.co/r2gY7y29/smart-assistant.png") center / cover no-repeat;
+    display: flex;
+    align-items: center;
+    padding: clamp(24px, 6vw, 70px);
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+.work-content {
+    width: min(560px, 100%);
+}
+
+.work-content h2 {
+    margin: 0 0 18px;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 900;
+}
+
+.work-content p {
+    line-height: 1.9;
+    font-weight: 800;
+    color: #e5eef8;
+}
+
+.work-content a {
+    margin-top: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 58px;
+    border-radius: 999px;
+    padding: 0 26px;
+    background: white;
+    color: var(--deep);
+    font-weight: 900;
+    text-decoration: none;
+}
+
+.footer {
+    background: var(--deep);
+    color: white;
+    padding: 65px 20px 34px;
+}
+
+.footer-grid {
+    width: min(1100px, calc(100% - 24px));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 34px;
+    text-align: center;
+}
+
+.footer h3 {
+    margin: 0 0 16px;
+}
+
+.footer p {
+    color: #bfd0df;
+    font-weight: 700;
+}
+
+.footer-line {
+    width: min(1100px, calc(100% - 24px));
+    height: 1px;
+    background: rgba(255,255,255,0.15);
+    margin: 36px auto 22px;
+}
+
+.footer-copy {
+    text-align: center;
+    color: #bfd0df;
+    font-weight: 800;
+}
+
+.holiday-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(7,20,38,0.68);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.holiday-card {
+    width: min(390px, 100%);
+    border-radius: 28px;
+    padding: 28px;
+    text-align: center;
+    background: white;
+    box-shadow: var(--shadow);
+    animation: modalPop 0.45s cubic-bezier(0.2, 1.4, 0.4, 1) both;
+}
+
+.holiday-card i {
+    font-size: 3rem;
+    color: var(--danger);
+    margin-bottom: 14px;
+}
+
+.holiday-card h3 {
+    margin: 0 0 10px;
+    color: var(--deep);
+}
+
+.holiday-card p {
+    color: #5b6677;
+    font-weight: 800;
+    line-height: 1.8;
+}
+
+.holiday-card button {
+    width: 100%;
+    height: 52px;
+    border-radius: 999px;
+    border: none;
+    background: var(--deep);
+    color: white;
+    font-family: 'Cairo';
+    font-weight: 900;
+    cursor: pointer;
+}
+
+@keyframes modalPop {
+    from { transform: translateY(16px) scale(0.94); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@media (max-width: 820px) {
+    .hero { padding: 14px 12px 70px; }
+    .topbar {
+        width: 100%;
+        min-height: 72px;
+        padding: 10px 14px;
+        border-radius: 22px;
+    }
+    .brand img { width: 46px; height: 46px; }
+    .brand-text strong { font-size: 0.95rem; }
+    .brand-text span { font-size: 0.64rem; }
+    .nav { display: none; }
+    .lang-pill { padding: 9px 12px; font-size: 0.78rem; }
+    .hero-content { min-height: calc(100dvh - 100px); }
+    .hero-logo { width: 82px; height: 82px; margin-bottom: 22px; }
+    .hero-logo img { width: 62px; height: 62px; }
+    .hero p { margin-bottom: 32px; }
+    .hero-btn { width: 100%; min-width: 0; height: 58px; }
+    .stats-band { padding: 52px 20px; }
+    .stats-grid { flex-direction: column; gap: 26px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .field-row { grid-template-columns: 1fr; }
+    .booking-stage { border-radius: 28px; }
+    .work-card { min-height: 520px; align-items: flex-end; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .whatsapp-float { width: 58px; height: 58px; right: 18px; bottom: 18px; }
+}
 </style>
 </head>
 
 <body>
 
 <div id="splash">
-    <div class="splash-signature">Future Reservation System © 2026</div>
+    <img class="splash-logo" src="https://i.ibb.co/84RXbtF1/12c5911b-14b9-4331-b140-ac53af66371e.png" alt="Future Logo">
+    <div class="splash-progress"><span></span></div>
+    <div class="splash-live-text" id="splashLiveText">جاري التحميل...</div>
 </div>
 
-<div id="fridayAlert" class="friday-modal">
-    <div class="fri-card">
-        <i class="fa-solid fa-calendar-xmark" style="font-size: 3.5rem; color: var(--medical-blue); margin-bottom: 15px;"></i>
-        <h3 id="friT">تنبيه المواعيد</h3>
-        <p id="friM" style="font-size: 0.85rem; color: #64748b; line-height: 1.6;">عذراً، هذه الأيام من العطلات الرسمية. من فضلك اختر يوماً آخر للحجز.</p>
-        <button class="btn" style="background:var(--medical-blue); margin-top: 15px;" onclick="closeFri()">فهمت</button>
-    </div>
-</div>
-
-<div class="app" id="mainApp">
-    <div class="controls-top">
-        <div class="control-group">
-            <div class="lang-btn" id="langBtn" onclick="toggleLanguage()">EN</div>
-            <div class="mode-btn" onclick="toggleDarkMode()"><i class="fa-solid fa-moon"></i></div>
-        </div>
-        <div class="theme-btn" onclick="nextTheme()"><i class="fa-solid fa-palette"></i></div>
-    </div>
-
-    <div class="header-container">
-        <div class="header-slider swiper">
-            <div class="swiper-wrapper" id="banner-wrapper">
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1200"><div class="banner-overlay" id="overlay1">✨ نظام الحجز الذكي المستقبلي</div></div>
-                <div class="swiper-slide"><img src="https://i.ibb.co/kgm39Svk/Bannar-2-LOG3.png"><div class="banner-overlay" id="overlay2">🚀 إدارة احترافية متكاملة</div></div>
-                <div class="swiper-slide"><img src="https://i.ibb.co/h1xvDxnb/02-Bannar1200.png"><div class="banner-overlay" id="overlay3">💎 أناقة التصميم وسهولة الاستخدام</div></div>
+<div class="site">
+    <section class="hero" id="home">
+        <header class="topbar">
+            <div class="brand">
+                <img src="https://i.ibb.co/84RXbtF1/12c5911b-14b9-4331-b140-ac53af66371e.png" alt="Future Logo">
+                <div class="brand-text">
+                    <strong>Future System</strong>
+                    <span>Smart Booking Platform</span>
+                </div>
             </div>
-            <div class="swiper-pagination"></div>
+
+            <nav class="nav">
+                <a href="#features">المميزات</a>
+                <a href="#bookingDemo">جرب النظام</a>
+                <a href="#works">من أعمالنا</a>
+                <a href="#contact">تواصل معنا</a>
+            </nav>
+
+            <button class="lang-pill">English <i class="fa-solid fa-globe"></i></button>
+        </header>
+
+        <div class="hero-content">
+            <div>
+                <div class="hero-logo">
+                    <img src="https://i.ibb.co/84RXbtF1/12c5911b-14b9-4331-b140-ac53af66371e.png" alt="Future Logo">
+                </div>
+                <h1>Smart Booking</h1>
+                <p>نظام حجز ذكي يساعدك تنظم المواعيد، تقلل التكرار، وتقدم تجربة سهلة وسريعة لعملائك من أول خطوة.</p>
+                <div class="hero-actions">
+                    <button class="hero-btn primary" onclick="goToBookingDemo()">
+                        <i class="fa-solid fa-calendar-check"></i>
+                        جرب النظام
+                    </button>
+                    <a class="hero-btn secondary" href="https://wa.me/201122750229">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        واتساب الآن
+                    </a>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <div id="contentArea" class="main-content"></div>
+    <section class="stats-band">
+        <div class="stats-grid">
+            <div class="stat"><b id="stat1">+0</b><span>نظام قابل للتخصيص</span></div>
+            <div class="stat"><b id="stat2">+0</b><span>حجز تجريبي</span></div>
+            <div class="stat"><b id="stat3">+0</b><span>نشاط مناسب</span></div>
+        </div>
+    </section>
 
-    <div class="social-nav">
-        <a href="#" class="social-item"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#" class="social-item"><i class="fa-brands fa-instagram"></i></a>
-        <a href="https://wa.me/201122750229" class="social-item wa-special" onclick="handleVibrate()"><i class="fa-brands fa-whatsapp"></i></a>
-        <a href="#" class="social-item"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="#" class="social-item"><i class="fa-brands fa-youtube"></i></a>
-    </div>
+    <section class="section" id="features">
+        <div class="inner features-shell">
+            <h2 class="section-title">مميزات النظام</h2>
+            <div class="features-grid">
+                <div class="feature-card dark">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <h3>حجز ذكي</h3>
+                    <p>نموذج حجز سريع مع تحقق فوري من البيانات قبل الإرسال.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    <h3>منع التكرار</h3>
+                    <p>يساعدك تكتشف الأرقام والحجوزات المتكررة بشكل منظم.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    <h3>متجاوب</h3>
+                    <p>واجهة مناسبة للموبايل والكمبيوتر بدون فقدان جمال التصميم.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <h3>واتساب</h3>
+                    <p>تأكيد سريع للحجز وإرسال البيانات بشكل واضح.</p>
+                </div>
+                <div class="feature-card dark">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h3>إحساس حي</h3>
+                    <p>عدادات وتنبيهات تجعل تجربة النظام أكثر تفاعلًا وواقعية.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fa-solid fa-palette"></i>
+                    <h3>قابل للتخصيص</h3>
+                    <p>يمكن تغيير الألوان والنصوص والصور حسب كل نشاط.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <div class="brand-footer">Future Reservation System © 2026</div>
+    <section class="booking-section" id="bookingDemo">
+        <div class="booking-stage" id="bookingStage"></div>
+    </section>
+
+    <section class="work-section" id="works">
+        <div class="inner">
+            <h2 class="section-title">من أعمال الشركة</h2>
+            <div class="work-card">
+                <div class="work-content">
+                    <h2>المساعد الذكي لمكاتب الصحة</h2>
+                    <p>
+                        مساعد رقمي يسهّل معرفة خطوات الخدمات داخل مكاتب الصحة مثل شهادات الميلاد والوفاة والتطعيمات، ويعرض الأوراق المطلوبة بطريقة بسيطة وسريعة.
+                    </p>
+                    <a href="https://dokyy2.github.io/smart-assistant/" target="_blank">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        المساعد الذكي - لمكاتب الصحة
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="contact">
+        <div class="footer-grid">
+            <div>
+                <h3>Future System</h3>
+                <p>أنظمة حجز ذكية وتجارب رقمية قابلة للتخصيص.</p>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <p>01012345678</p>
+                <p>info@example.com</p>
+            </div>
+            <div>
+                <h3>Location</h3>
+                <p>عنوان تجريبي يمكن تغييره لاحقًا.</p>
+            </div>
+        </div>
+        <div class="footer-line"></div>
+        <div class="footer-copy">Future Reservation System © 2026</div>
+    </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<a class="whatsapp-float" href="https://wa.me/201122750229">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<div class="holiday-modal" id="holidayModal">
+    <div class="holiday-card">
+        <i class="fa-solid fa-calendar-xmark"></i>
+        <h3>الجمعة عطلة رسمية</h3>
+        <p>من فضلك اختر يومًا آخر للحجز. يوم الجمعة غير متاح داخل هذا النموذج التجريبي.</p>
+        <button onclick="closeHolidayModal()">فهمت</button>
+    </div>
+</div>
 
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzUuCywYw66rpY7nChKRKrgD1C24t8U70H7wRxtp9va6eM3ycvlpo3MYQnU0Z_qkLeC/exec";
-const contentArea = document.getElementById('contentArea');
+const bookingStage = document.getElementById("bookingStage");
 
-let CLIENT_NAME = "";
-let CLIENT_EMAIL = "";
-let currentLang = 'ar';
-let themes = ['default', 'purple', 'sky', 'red', 'mint'];
-let currentThemeIndex = 0;
-let isDark = false;
-let swiper;
+let selectedActivity = "";
+let bookingCounter = 0;
 
-const i18n = {
-    ar: {
-        b1: "✨ نظام الحجز الذكي المستقبلي", b2: "🚀 إدارة احترافية متكاملة", b3: "💎 أناقة التصميم وسهولة الاستخدام",
-        choose: "اختر الخدمة", demo: "تجربة النسخة التجريبية", buy: "شراء النسخة الكاملة",
-        setup: "إعداد التجربة", bizName: "اسم النشاط التجاري", bizEmail: "بريدك الإلكتروني",
-        enter: "دخول النظام", back: "رجوع للرئيسية", formTitle: "نموذج الحجز",
-        namePl: "الاسم ثلاثي", phonePl: "رقم الهاتف", confirm: "تأكيد الحجز",
-        nameErr: "⚠️ يجب كتابة الاسم ثلاثي", phoneErr: "⚠️ من فضلك أدخل 11 رقم",
-        emailErr: "⚠️ يرجى إدخال إيميل صحيح يحتوي على @",
-        errData: "يرجى إكمال البيانات بدقة",
-        processing: "جاري تأكيد بيانات الحجز.. يرجى الانتظار",
-        dupTitle: "حجز قائم بالفعل", adminBadge: "تنبيه إداري",
-        successTitle: "تم تأكيد الطلب", receiptId: "رقم الإيصال:", bookingDate: "تاريخ الحجز:",
-        home: "العودة للرئيسية", nameBuy: "الاسم الثلاثي", phoneBuy: "رقم الهاتف (11 رقم)", send: "إرسال الطلب",
-        buySuccessTitle: "تهانينا! تم اشتراكك",
-        buySuccessMsg: "شكراً لاختيارك Future System. لقد استلمنا طلبك وستقوم خدمة العملاء بالتواصل معك في أقرب وقت ممكن لتفعيل النسخة الكاملة.",
-        buyDupMsg: "عذراً، هذا الرقم مسجل لدينا بالفعل في طلبات الشراء. من فضلك تواصل مع خدمة العملاء للمتابعة.",
-        contactSupport: "تواصل مع خدمة العملاء",
-        friT: "تنبيه المواعيد",
-        friM: "عذراً، هذه الأيام من العطلات الرسمية. من فضلك اختر يوماً آخر للحجز."
-    },
-    en: {
-        b1: "✨ Future Smart Booking System", b2: "🚀 Integrated Professional Management", b3: "💎 Elegant Design & Ease of Use",
-        choose: "Choose Service", demo: "Try Demo Version", buy: "Buy Full Version",
-        setup: "Setup Experience", bizName: "Business Name", bizEmail: "Your Email",
-        enter: "Enter System", back: "Back to Home", formTitle: "Booking Form",
-        namePl: "Full Name", phonePl: "Phone Number", confirm: "Confirm Booking",
-        nameErr: "⚠️ Full name is required", phoneErr: "⚠️ Please enter 11 digits",
-        emailErr: "⚠️ Enter a valid email with @",
-        errData: "Please fill details accurately",
-        processing: "Confirming booking data.. please wait",
-        dupTitle: "Existing Reservation", adminBadge: "Admin Alert",
-        successTitle: "Order Confirmed", receiptId: "Receipt ID:", bookingDate: "Booking Date:",
-        home: "Back to Home", nameBuy: "Full Name", phoneBuy: "Phone (11 digits)", send: "Send Request",
-        buySuccessTitle: "Congrats! Subscribed",
-        buySuccessMsg: "Thank you for choosing Future System. Our customer service will contact you soon to activate the full version.",
-        buyDupMsg: "Sorry, this number is already registered. Please contact support.",
-        contactSupport: "Contact Support",
-        friT: "Appointment Alert",
-        friM: "Sorry, these days are official holidays. Please choose another date."
-    }
-};
+window.addEventListener("load", () => {
+    const splashTexts = ["جاري التحميل...", "تجهيز النظام...", "تحميل تجربة الحجز...", "جاهز ✔"];
+    let index = 0;
+    const splashText = document.getElementById("splashLiveText");
 
-window.addEventListener('load', () => {
+    const timer = setInterval(() => {
+        index = (index + 1) % splashTexts.length;
+        splashText.innerText = splashTexts[index];
+    }, 650);
+
     setTimeout(() => {
-        const splash = document.getElementById('splash');
-        splash.classList.add('hide');
-        document.getElementById('mainApp').style.opacity = '1';
-
-        const randomTheme = themes[Math.floor(Math.random() * themes.length)];
-        if(randomTheme !== 'default') document.documentElement.setAttribute('data-theme', randomTheme);
-
-        loadModeSelection();
-        initSwiper();
+        clearInterval(timer);
+        document.getElementById("splash").classList.add("hide");
+        renderActivityStep();
+        animateStats();
     }, 2500);
 });
 
-function initSwiper() {
-    if (swiper) swiper.destroy();
-    swiper = new Swiper('.swiper', {
-        loop: true,
-        autoplay: { delay: 4000 },
-        pagination: { el: '.swiper-pagination', clickable: true },
-        observer: true,
-        observeParents: true
-    });
+function animateStats() {
+    animateNumber("stat1", 23, 35);
+    animateNumber("stat2", 2000, 2);
+    animateNumber("stat3", 15, 50);
 }
 
-function toggleLanguage() {
-    currentLang = currentLang === 'ar' ? 'en' : 'ar';
-    document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'EN' : 'AR';
-    document.body.classList.toggle('en-mode', currentLang === 'en');
-
-    document.getElementById('overlay1').innerText = i18n[currentLang].b1;
-    document.getElementById('overlay2').innerText = i18n[currentLang].b2;
-    document.getElementById('overlay3').innerText = i18n[currentLang].b3;
-    document.getElementById('friT').innerText = i18n[currentLang].friT;
-    document.getElementById('friM').innerText = i18n[currentLang].friM;
-
-    loadModeSelection();
-    setTimeout(initSwiper, 100);
+function animateNumber(id, target, speed) {
+    let n = 0;
+    const el = document.getElementById(id);
+    const timer = setInterval(() => {
+        n += Math.ceil(target / 35);
+        if (n >= target) {
+            n = target;
+            clearInterval(timer);
+        }
+        el.innerText = "+" + n;
+    }, speed);
 }
 
-function toggleDarkMode() {
-    isDark = !isDark;
-    document.documentElement.setAttribute('data-mode', isDark ? 'dark' : 'light');
-    document.querySelector('.mode-btn i').className = isDark ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+function goToBookingDemo() {
+    document.getElementById("bookingDemo").scrollIntoView({ behavior: "smooth" });
+    renderActivityStep();
 }
 
-function nextTheme() {
-    currentThemeIndex = (currentThemeIndex + 1) % themes.length;
-    const theme = themes[currentThemeIndex];
-    if (theme === 'default') document.documentElement.removeAttribute('data-theme');
-    else document.documentElement.setAttribute('data-theme', theme);
-}
+function renderActivityStep() {
+    bookingStage.innerHTML = `
+        <div class="window-dots">
+            <span class="active"></span><span></span><span></span>
+        </div>
+        <h2>اختار نوع النشاط</h2>
+        <p class="subtitle">اختر النشاط المناسب لتجربة نموذج الحجز الذكي</p>
 
-const signatureHtml = `<div class="form-signature">Future Reservation System © 2026</div>`;
-
-function backButton(target = 'home') {
-    const action = target === 'setup' ? 'startDemoSetup()' : 'loadModeSelection()';
-    return `<button class="inline-back-btn" onclick="${action}"><i class="fa-solid fa-house"></i> ${i18n[currentLang].back}</button>`;
-}
-
-function loadModeSelection(){
-    contentArea.innerHTML = `
-        <div class="banner-sub">${i18n[currentLang].b1}<br>${i18n[currentLang].b2}</div>
-        <div class="card" style="text-align:center;">
-            <h3 style="color:var(--dark-pink);"><i class="fa-solid fa-star" style="color:var(--primary-color)"></i> ${i18n[currentLang].choose}</h3>
-            <button class="btn btn-gold" onclick="startDemoSetup()"><i class="fa-solid fa-vial"></i> ${i18n[currentLang].demo}</button>
-            <button class="btn" onclick="startBuy()"><i class="fa-solid fa-crown"></i> ${i18n[currentLang].buy}</button>
-        </div>`;
-}
-
-function startDemoSetup(){
-    contentArea.innerHTML = `
-    <div class="msg">
         <div class="booking-form">
-            <div class="form-title"><i class="fa-solid fa-gear"></i><span>${i18n[currentLang].setup}</span></div>
-            <input id="bizName" type="text" placeholder="${i18n[currentLang].bizName}" value="${CLIENT_NAME}">
-            <input id="bizEmail" type="email" placeholder="${i18n[currentLang].bizEmail}" value="${CLIENT_EMAIL}" oninput="validateEmail(this)">
-            <div id="emailErr" class="hint-error">${i18n[currentLang].emailErr}</div>
-            <button class="btn btn-gold" onclick="saveDemo()"><i class="fa-solid fa-right-to-bracket"></i> ${i18n[currentLang].enter}</button>
-            ${signatureHtml}
-            ${backButton()}
+            <div class="field">
+                <label>النشاط</label>
+                <select id="activitySelect">
+                    <option value="">اختر النشاط</option>
+                    <option value="عيادة طبية">عيادة طبية</option>
+                    <option value="مركز أسنان">مركز أسنان</option>
+                    <option value="مركز تجميل">مركز تجميل</option>
+                    <option value="مركز علاج طبيعي">مركز علاج طبيعي</option>
+                    <option value="مكتب استشارات">مكتب استشارات</option>
+                    <option value="سنتر تعليمي">سنتر تعليمي</option>
+                    <option value="صالون أو سبا">صالون أو سبا</option>
+                    <option value="شركة خدمات">شركة خدمات</option>
+                </select>
+                <div id="activityErr" class="error-hint">⚠️ من فضلك اختر النشاط أولًا</div>
+            </div>
+
+            <button class="cta-submit" onclick="goNextBooking()">
+                التالي <i class="fa-solid fa-arrow-left"></i>
+            </button>
         </div>
-    </div>`;
+    `;
 }
 
-function validateEmail(el) {
-    const err = document.getElementById('emailErr');
-    err.style.display = el.value && !el.value.includes('@') ? 'block' : 'none';
-}
+function goNextBooking() {
+    const activity = document.getElementById("activitySelect").value;
+    const err = document.getElementById("activityErr");
 
-function saveDemo(){
-    CLIENT_NAME = document.getElementById('bizName').value.trim();
-    CLIENT_EMAIL = document.getElementById('bizEmail').value.trim();
-
-    if(!CLIENT_NAME || !CLIENT_EMAIL || !CLIENT_EMAIL.includes('@')) {
-        alert(i18n[currentLang].errData);
+    if (!activity) {
+        err.style.display = "block";
         return;
     }
 
-    startBooking();
+    selectedActivity = activity;
+    renderBookingForm();
 }
 
-function startBooking(){
-    const today = new Date().toISOString().split('T')[0];
+function renderBookingForm() {
+    const today = new Date().toISOString().split("T")[0];
 
-    contentArea.innerHTML = `
-    <div class="msg">
-        <div class="booking-form" id="activeForm">
-            <div class="form-title"><i class="fa-solid fa-calendar-check"></i><span>${i18n[currentLang].formTitle}</span></div>
-
-            <input id="pName" type="text" placeholder="👤 ${i18n[currentLang].namePl}" oninput="handleName(this)">
-            <div id="pNameHint" class="live-hint">${i18n[currentLang].nameErr}</div>
-            
-            <input id="pPhone" type="tel" maxlength="11" placeholder="📱 ${i18n[currentLang].phonePl}" oninput="handlePhone(this)">
-            <div id="pPhoneHint" class="live-hint">${i18n[currentLang].phoneErr}</div>
-            
-            <input type="date" id="pDate" min="${today}" onchange="handleFri(this)">
-
-            <button class="btn btn-gold" onclick="submitBooking()"><i class="fa-solid fa-check"></i> ${i18n[currentLang].confirm}</button>
-            ${signatureHtml}
-            ${backButton('setup')}
+    bookingStage.innerHTML = `
+        <div class="window-dots">
+            <span></span><span class="active"></span><span></span>
         </div>
-    </div>`;
+        <h2>احجز موعدك بسهولة</h2>
+        <p class="subtitle">خطوات بسيطة لتأكيد موعدك داخل نشاط: <b>${selectedActivity}</b></p>
+
+        <div class="booking-info">
+            <div class="booking-info-item">
+                <span>عدد الحجوزات حتى الآن</span>
+                <span id="bookingCount">0</span>
+            </div>
+            <div class="booking-info-item">
+                <span>النشاط المختار</span>
+                <span>${selectedActivity}</span>
+            </div>
+            <div class="booking-info-item">
+                <span>حالة النظام</span>
+                <span>متاح الآن</span>
+            </div>
+        </div>
+
+        <div class="booking-form">
+            <div class="field-row">
+                <div class="field">
+                    <label>الاسم الكامل</label>
+                    <input id="pName" type="text" placeholder="أدخل اسمك" oninput="validateNameLive(this)">
+                    <div id="nameErr" class="error-hint">⚠️ يجب كتابة الاسم ثلاثي</div>
+                </div>
+
+                <div class="field">
+                    <label>رقم الهاتف</label>
+                    <input id="pPhone" type="tel" maxlength="11" placeholder="01xxxxxxxxx" oninput="validatePhoneLive(this)">
+                    <div id="phoneErr" class="error-hint">⚠️ من فضلك أدخل رقم هاتف مكون من 11 رقم</div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>ميعاد الحجز</label>
+                <input id="pDate" type="date" min="${today}" onchange="validateDate(this)">
+                <div id="dateErr" class="error-hint">⚠️ من فضلك اختر ميعاد الحجز</div>
+            </div>
+
+            <div class="field">
+                <label>رسالة مختصرة</label>
+                <textarea id="pMessage" placeholder="رسالة مختصرة (الأعراض / اليوم المناسب / أي ملاحظات)"></textarea>
+            </div>
+
+            <button class="cta-submit" onclick="submitBooking()">
+                اضغط هنا لتأكيد الحجز <i class="fa-solid fa-check"></i>
+            </button>
+
+            <button class="secondary-btn" onclick="renderActivityStep()">رجوع</button>
+        </div>
+    `;
+
+    animateBookingCount();
 }
 
-function handleName(el) {
-    const words = el.value.trim().split(/\s+/);
-    document.getElementById('pNameHint').style.display = (words.length < 3 && el.value.length > 0) ? 'block' : 'none';
+function animateBookingCount() {
+    bookingCounter = 0;
+    const el = document.getElementById("bookingCount");
+    const target = 128;
+
+    const timer = setInterval(() => {
+        bookingCounter += 4;
+        if (bookingCounter >= target) {
+            bookingCounter = target;
+            clearInterval(timer);
+        }
+        if (el) el.innerText = bookingCounter;
+    }, 25);
 }
 
-function handlePhone(el) {
-    el.value = el.value.replace(/[^0-9]/g, '');
-    document.getElementById('pPhoneHint').style.display = (el.value.length < 11 && el.value.length > 0) ? 'block' : 'none';
+function validateNameLive(el) {
+    const words = el.value.trim().split(/\s+/).filter(Boolean);
+    document.getElementById("nameErr").style.display = el.value.length > 0 && words.length < 3 ? "block" : "none";
 }
 
-function handleFri(el) {
+function validatePhoneLive(el) {
+    el.value = el.value.replace(/[^0-9]/g, "");
+    document.getElementById("phoneErr").style.display = el.value.length > 0 && el.value.length < 11 ? "block" : "none";
+}
+
+function validateDate(el) {
     const day = new Date(el.value).getUTCDay();
-    if(day === 4 || day === 5) {
-        document.getElementById('fridayAlert').style.display = 'flex';
+
+    if (day === 5) {
         el.value = "";
-    }
-}
-
-function closeFri() {
-    document.getElementById('fridayAlert').style.display = 'none';
-}
-
-async function submitBooking(){
-    const name = document.getElementById('pName').value.trim();
-    const phone = document.getElementById('pPhone').value;
-    const date = document.getElementById('pDate').value;
-
-    if(name.split(/\s+/).length < 3 || phone.length < 11 || !date) {
-        alert(currentLang === 'ar' ? "يرجى إكمال البيانات" : "Please complete data");
+        document.getElementById("holidayModal").style.display = "flex";
         return;
     }
 
-    contentArea.innerHTML = `
-    <div class="msg" style="text-align:center;">
-        <i class="fa-solid fa-spinner fa-spin" style="font-size:1.8rem; color:var(--primary-color)"></i>
-        <p style="font-weight:800;">${i18n[currentLang].processing}</p>
-    </div>`;
+    document.getElementById("dateErr").style.display = el.value ? "none" : "block";
+}
+
+function closeHolidayModal() {
+    document.getElementById("holidayModal").style.display = "none";
+}
+
+async function submitBooking() {
+    const name = document.getElementById("pName").value.trim();
+    const phone = document.getElementById("pPhone").value;
+    const date = document.getElementById("pDate").value;
+    const message = document.getElementById("pMessage").value.trim();
+
+    let hasError = false;
+
+    if (name.split(/\s+/).filter(Boolean).length < 3) {
+        document.getElementById("nameErr").style.display = "block";
+        hasError = true;
+    }
+
+    if (phone.length < 11) {
+        document.getElementById("phoneErr").style.display = "block";
+        hasError = true;
+    }
+
+    if (!date) {
+        document.getElementById("dateErr").style.display = "block";
+        hasError = true;
+    }
+
+    if (hasError) return;
+
+    bookingStage.innerHTML = `
+        <div class="result-card">
+            <i class="fa-solid fa-spinner fa-spin" style="font-size:2.2rem;color:var(--blue);"></i>
+            <h2 style="margin:18px 0 8px;">جاري تأكيد الحجز</h2>
+            <p id="progressText" style="font-weight:800;color:#5b6677;">جارٍ إرسال البيانات...</p>
+        </div>
+    `;
+
+    const steps = ["جارٍ إرسال البيانات...", "جارٍ مراجعة الموعد...", "جارٍ إنشاء رقم الحجز..."];
+    let step = 0;
+    const progressTimer = setInterval(() => {
+        step = (step + 1) % steps.length;
+        const el = document.getElementById("progressText");
+        if (el) el.innerText = steps[step];
+    }, 650);
 
     try {
         const response = await fetch(SCRIPT_URL, {
@@ -487,140 +1151,66 @@ async function submitBooking(){
                 name,
                 phone,
                 bookingDate: date,
-                source: CLIENT_NAME,
-                clientEmail: CLIENT_EMAIL,
-                mode: "demo"
+                source: selectedActivity,
+                clientEmail: "demo@future-system.local",
+                mode: "demo",
+                message
             })
         });
 
         const data = await response.json();
+        clearInterval(progressTimer);
 
-        if(data.status == "duplicated") {
-            contentArea.innerHTML = `
-            <div class="msg dup-card">
-                <div class="status-badge">${i18n[currentLang].adminBadge}</div>
-                <i class="fa-solid fa-circle-exclamation" style="font-size:2.3rem; color:var(--error-red);"></i>
-                <h3>${i18n[currentLang].dupTitle}</h3>
-                <p style="font-size:0.85rem; line-height:1.7;">${data.message}</p>
-                <div class="details-box">
-                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'الاسم:' : 'Name:'}</span><span class="detail-value">${name}</span></div>
-                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'التاريخ:' : 'Date:'}</span><span class="detail-value">${date}</span></div>
+        if (data.status === "duplicated") {
+            bookingStage.innerHTML = `
+                <div class="result-card">
+                    <i class="fa-solid fa-circle-exclamation" style="font-size:2.4rem;color:var(--danger);"></i>
+                    <h2>حجز قائم بالفعل</h2>
+                    <p style="font-weight:800;color:#5b6677;">${data.message || "هذا الرقم لديه حجز مسجل مسبقًا."}</p>
+                    <button class="secondary-btn" onclick="renderBookingForm()">رجوع للحجز</button>
                 </div>
-                <button class="btn btn-gold" onclick="startBooking()">${i18n[currentLang].back}</button>
-            </div>`;
-        } else {
-            const waMsg = `*Future Reservation System*\n📌 رقم الإيصال: #${data.id}\n👤 الاسم: ${name}\n📱 الهاتف: ${phone}\n📅 التاريخ: ${date}\n🏢 النشاط: ${CLIENT_NAME}`;
-            const waUrl = `https://wa.me/201122750229?text=${encodeURIComponent(waMsg)}`;
+            `;
+            return;
+        }
 
-            contentArea.innerHTML = `
-            <div class="msg" style="text-align:center; border:2px solid var(--primary-color); background:var(--silk-bg);">
-                <div style="font-size:2rem; color:#c5a059;"><i class="fa-solid fa-crown"></i></div>
-                <h3 style="color:var(--dark-pink);">${i18n[currentLang].successTitle}</h3>
+        const bookingId = data.id ? "#" + data.id : "#DEMO-" + Math.floor(Math.random() * 9000 + 1000);
+
+        bookingStage.innerHTML = `
+            <div class="result-card">
+                <i class="fa-solid fa-circle-check" style="font-size:2.6rem;color:var(--green);"></i>
+                <h2>تم تأكيد الحجز</h2>
+                <p style="font-weight:800;color:#5b6677;">تم تسجيل بياناتك بنجاح، وهذه تفاصيل الحجز.</p>
+
                 <div class="details-box">
-                    <div class="detail-item"><span class="detail-label">${i18n[currentLang].receiptId}</span><span class="detail-value">#${data.id}</span></div>
-                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'الاسم:' : 'Name:'}</span><span class="detail-value">${name}</span></div>
-                    <div class="detail-item"><span class="detail-label">${currentLang === 'ar' ? 'الهاتف:' : 'Phone:'}</span><span class="detail-value">${phone}</span></div>
-                    <div class="detail-item"><span class="detail-label">${i18n[currentLang].bookingDate}</span><span class="detail-value">${date}</span></div>
+                    <div class="detail-item"><span>رقم الحجز</span><span>${bookingId}</span></div>
+                    <div class="detail-item"><span>النشاط</span><span>${selectedActivity}</span></div>
+                    <div class="detail-item"><span>الاسم</span><span>${name}</span></div>
+                    <div class="detail-item"><span>الهاتف</span><span>${phone}</span></div>
+                    <div class="detail-item"><span>المعاد</span><span>${date}</span></div>
+                    <div class="detail-item"><span>الرسالة</span><span>${message || "لا يوجد"}</span></div>
                 </div>
-                <a href="${waUrl}" target="_blank" class="premium-wa-link"><i class="fa-brands fa-whatsapp"></i> تأكيد عبر واتساب</a>
-                ${backButton()}
-            </div>`;
-        }
+
+                <a class="hero-btn primary" style="width:100%;margin-top:10px;" href="https://wa.me/201122750229?text=${encodeURIComponent(`طلب حجز جديد\nرقم الحجز: ${bookingId}\nالنشاط: ${selectedActivity}\nالاسم: ${name}\nالهاتف: ${phone}\nالتاريخ: ${date}\nالرسالة: ${message || "لا يوجد"}`)}">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    إرسال عبر واتساب
+                </a>
+
+                <button class="secondary-btn" style="width:100%;margin-top:12px;" onclick="renderActivityStep()">حجز جديد</button>
+            </div>
+        `;
+
+        if ("vibrate" in navigator) navigator.vibrate(80);
     } catch (e) {
-        startBooking();
+        clearInterval(progressTimer);
+        bookingStage.innerHTML = `
+            <div class="result-card">
+                <i class="fa-solid fa-triangle-exclamation" style="font-size:2.4rem;color:var(--danger);"></i>
+                <h2>تعذر إرسال الحجز</h2>
+                <p style="font-weight:800;color:#5b6677;">من فضلك حاول مرة أخرى.</p>
+                <button class="secondary-btn" onclick="renderBookingForm()">رجوع</button>
+            </div>
+        `;
     }
-}
-
-function startBuy(){
-    contentArea.innerHTML = `
-    <div class="msg">
-        <div class="booking-form" id="activeForm">
-            <div class="form-title"><i class="fa-solid fa-basket-shopping"></i><span>${i18n[currentLang].buy}</span></div>
-
-            <input id="buyName" placeholder="👤 ${i18n[currentLang].nameBuy}" oninput="hBN(this)">
-            <div id="hBNHint" class="live-hint">${i18n[currentLang].nameErr}</div>
-
-            <input id="buyPhone" placeholder="📱 ${i18n[currentLang].phoneBuy}" maxlength="11" oninput="hBP(this)">
-            <div id="hBPHint" class="live-hint">${i18n[currentLang].phoneErr}</div>
-
-            <button class="btn btn-gold" onclick="submitBuy()"><i class="fa-solid fa-paper-plane"></i> ${i18n[currentLang].send}</button>
-            ${signatureHtml}
-            ${backButton()}
-        </div>
-    </div>`;
-}
-
-function hBN(el) {
-    const words = el.value.trim().split(/\s+/);
-    document.getElementById('hBNHint').style.display = (words.length < 3 && el.value.length > 0) ? 'block' : 'none';
-}
-
-function hBP(el) {
-    el.value = el.value.replace(/[^0-9]/g, '');
-    document.getElementById('hBPHint').style.display = (el.value.length < 11 && el.value.length > 0) ? 'block' : 'none';
-}
-
-async function submitBuy(){
-    const name = document.getElementById('buyName').value.trim();
-    const phone = document.getElementById('buyPhone').value;
-
-    if(name.split(/\s+/).length < 3 || phone.length < 11) {
-        alert(currentLang === 'ar' ? "يرجى إكمال البيانات" : "Please complete data");
-        return;
-    }
-
-    contentArea.innerHTML = `
-    <div class="msg" style="text-align:center;">
-        <i class="fa-solid fa-spinner fa-spin" style="font-size:1.8rem; color:var(--primary-color)"></i>
-        <p style="font-weight:800;">${i18n[currentLang].processing}</p>
-    </div>`;
-
-    try {
-        const response = await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify({ mode: "buy", name, phone })
-        });
-
-        const data = await response.json();
-
-        if(data.status === "success_buy") {
-            contentArea.innerHTML = `
-            <div class="msg" style="text-align:center; border:2px solid var(--primary-color); background:var(--silk-bg);">
-                <i class="fa-solid fa-crown" style="font-size:2.5rem; color:var(--primary-color); margin-bottom:15px;"></i>
-                <h3 style="color:var(--dark-pink); font-weight:800; font-size:1.2rem;">${i18n[currentLang].buySuccessTitle}</h3>
-                <p style="font-size:0.85rem; line-height:1.7; padding:0 10px; font-weight:700;">${i18n[currentLang].buySuccessMsg}</p>
-                <div style="height:1px; background:var(--primary-color); margin:15px 0; opacity:0.3;"></div>
-                ${backButton()}
-            </div>`;
-        } else {
-            contentArea.innerHTML = `
-            <div class="msg" style="text-align:center;">
-                <i class="fa-solid fa-circle-exclamation" style="font-size:2rem; color:var(--error-red);"></i>
-                <p>${i18n[currentLang].buyDupMsg}</p>
-                <a href="https://wa.me/201122750229" class="premium-wa-link">${i18n[currentLang].contactSupport}</a>
-                ${backButton()}
-            </div>`;
-        }
-    } catch (e) {
-        loadModeSelection();
-    }
-}
-
-function showTyping() {
-    const d = document.createElement("div");
-    d.id = "typing";
-    d.className = "typing";
-    d.innerHTML = '<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
-    contentArea.appendChild(d);
-}
-
-function removeTyping() {
-    const t = document.getElementById("typing");
-    if(t) t.remove();
-}
-
-function handleVibrate() {
-    if ("vibrate" in navigator) navigator.vibrate(60);
 }
 </script>
 </body>
